@@ -26,12 +26,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └── scripts/              # Dev utility scripts
 ```
 
-## Domain Glossary
-<!-- TODO: Define domain-specific terms (e.g., "Workspace", "Member", "Plan") -->
-
-## Build & Dev Commands
-All commands are in `justfile`. Run `just --list` to see available recipes.
-
 ## Environment
 
 | Service | Dev                         | Prod |
@@ -43,59 +37,55 @@ All commands are in `justfile`. Run `just --list` to see available recipes.
 | DB      | Docker Compose (`5432`)     | TBD  |
 | Redis   | Docker Compose (`6379`)     | TBD  |
 
-## Principles (MUST FOLLOW)
+## Principles & Constraints
+### MUST
 1. All changes must use skills, including after plan mode.
 2. After implementation, run these sub-agents in parallel:
    - **z-security-reviewer**: security audit → fix
    - **z-tester**: test changed code → fix
 
-## Do NOT
-<!-- TODO: List project-specific anti-patterns (e.g., "Do not use ORM, write raw SQL") -->
+### MUST NOT
+- (project-specific anti-patterns here)
 
-## API & Worker
+## Domain Glossary
+<!-- TODO: Define domain-specific terms (e.g., "Workspace", "Member", "Plan") -->
 
+## Build & Dev Commands
+All commands are in `justfile`. Run `just --list` to see available recipes.
+
+## API
 ### API Workflow (MUST FOLLOW)
 - Schema changes: **z-database-design** → **z-api-design** (plan)
 - Default: **z-axum-hexagonal** + **z-postgresql** (queries)
 <!-- NOTE: If using FastAPI, replace z-axum-hexagonal with appropriate sub-agent -->
 
-### Folder Structure (`api/`)
-See `docs/structure-api.md`.
-
-### Conventions
+### API Conventions
 <!-- TODO: Define API conventions (e.g., error format, auth strategy, pagination style) -->
 
-## Web
+## Worker
+<!--> TODO: If worker is needed -->
 
+## Web
 ### Web Workflow (MUST FOLLOW)
 - UI components: **z-ui-engineer** Agent
 - Default: **z-nextjs** (implementation) → **vercel-react-best-practices** (review)
 
-### Folder Structure (`web/`)
-See `docs/structure-web.md`. Feature-Sliced Design (FSD) with Next.js App Router.
-
 ### FSD Import Rules
 - `app(routing) → views → widgets → features → entities → shared` (never import upward)
-- `src/views/` = FSD "pages" layer (renamed to avoid Next.js `pages/` conflict)
 
-### Conventions
+### Web Conventions
 - **i18n**: Use `next-intl` for all UI text (Korean/English).
 - **Responsive**: Support all screen sizes.
 - **Dark mode**: Support light and dark themes.
 <!-- TODO: Add project-specific UI conventions -->
 
 ## Mobile
-
-### Workflow
+### Mobile Workflow
 - UI components: **z-ui-engineer** Agent
 - Default: **z-react-native**
 <!-- NOTE: Add or replace sub-agent as needed -->
 
-### Folder Structure (`mobile/`)
-See `docs/structure-mobile.md`.
-<!-- TODO: Define folder structure or reference doc -->
-
-### Conventions
+### Mobile Conventions
 - **Navigation**: Expo Router (file-based routing).
 - **i18n**: Share translation keys with web where possible.
 - **Dark mode**: Support light and dark themes.

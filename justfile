@@ -3,17 +3,6 @@ set dotenv-load := false
 default:
     @just --list
 
-# ─── Dev ──────────────────────────────────────────────────────────────────────
-
-up:
-    docker compose up -d
-
-down:
-    docker compose down
-
-dev: up
-    just api-dev & just web-dev
-
 # ─── Git ──────────────────────────────────────────────────────────────────────
 
 log:
