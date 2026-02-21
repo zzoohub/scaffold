@@ -12,9 +12,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ├── services/
 │   ├── api/              # Backend API
 │   └── worker/           # Queue, cron, pub/sub handlers
-│       ├── jobs/
-│       ├── crons/
-│       └── subscribers/
 ├── clients/
 │   ├── web/              # Next.js frontend
 │   └── mobile/           # Expo React Native
@@ -22,8 +19,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   ├── migrations/
 │   └── seeds/
 ├── infra/                # Pulumi IaC
-├── docs/                 # PRD, design docs, ux-design
-└── scripts/              # Dev utility scripts
+├── docs/                 # Product planning (what and how to build)
+├── biz/                  # Business operations (how to sell & grow)
+└── scripts/
 ```
 
 ## Environment
@@ -43,6 +41,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. After implementation, run these sub-agents in parallel:
    - **z-security-reviewer**: security audit → fix
    - **z-tester**: test changed code → fix
+3. Marketing content must reference `docs/product-brief.md` for consistent messaging.
+4. All user-facing events must be defined in `biz/analytics/tracking-plan.md` before implementation.
 
 ### MUST NOT
 - (project-specific anti-patterns here)
@@ -90,3 +90,17 @@ All commands are in `justfile`. Run `just --list` to see available recipes.
 - **i18n**: Share translation keys with web where possible.
 - **Dark mode**: Support light and dark themes.
 <!-- TODO: Add project-specific mobile conventions -->
+
+## Marketing
+### Marketing Workflow
+- Strategy & content: **z-growth-marketer** Agent
+- Copywriting: **z-copywriting** Skill
+- SEO/AEO/GEO: **z-search-visibility** Skill
+- All content references `docs/product-brief.md` and `biz/marketing/strategy.md`
+
+## Analytics
+### Analytics Workflow
+- Tracking & analysis: **z-data-analyst** Agent
+- Event implementation follows `biz/analytics/tracking-plan.md`
+- PostHog plugin for data queries
+- Kill/Keep/Scale decisions per `biz/analytics/kill-criteria.md`
