@@ -77,15 +77,17 @@ z-software-architect               # Design doc → docs/design-doc.md
 ## 4. Launch → Marketing
 
 ```
-z-growth-marketer (agent)
-  → biz/marketing/pricing.md         # Pricing strategy
-  → biz/marketing/competitors.md     # Competitor analysis
-  → biz/marketing/strategy.md       # Marketing strategy + viral loop design
-  → biz/marketing/launch/           # PH, HN, Reddit drafts
-  → biz/marketing/content/          # Social posts, blog, email sequences
-  → biz/marketing/assets/           # OG image, screenshots, demo
-  → biz/legal/terms.md               # Terms of Service
-  → biz/legal/privacy-policy.md      # Privacy Policy
+z-marketer (agent)
+  → biz/marketing/strategy.md            # Positioning, audience, channels, messaging
+  → biz/marketing/pricing.md              # Pricing strategy, tiers, packaging
+  → biz/marketing/competitors.md          # Competitor analysis
+  → biz/marketing/launch/                 # PH, HN, Reddit drafts + checklist
+  → biz/marketing/content/calendar.md     # Editorial calendar + content pillars
+  → biz/marketing/content/free-tools.md   # Free tool strategy
+  → biz/marketing/content/                # Email sequences, social posts, blog
+  → biz/marketing/assets/                 # OG image, screenshots, demo
+  → biz/legal/                            # Terms of Service, Privacy Policy
+  → biz/ops/                              # FAQ, runbook
   → Launch execution (human)
 ```
 
@@ -97,7 +99,8 @@ z-data-analyst (agent)
   → biz/analytics/funnels.md        # Funnel definitions + retention cohorts
   → biz/analytics/dashboards.md     # CC monitoring + retention + growth dashboards
   → biz/analytics/kill-criteria.md  # CC calculation + Kill/Keep/Scale
-  → biz/analytics/reports/          # Weekly reports
+  → biz/analytics/health-score.md   # Customer health score model
+  → biz/analytics/reports/          # Weekly reports, deep-dives, A/B results
   → Kill / Keep / Scale decision    # → human
 
   Improvement priority (always in this order):
@@ -106,7 +109,19 @@ z-data-analyst (agent)
   3. Acquisition (only after 1 & 2 are healthy)
 ```
 
-## 6. Operate → Iterate
+## 6. Grow → Optimize
+
+```
+z-growth-optimizer (agent)
+  → biz/growth/experiments.md          # ICE-scored experiment backlog + results
+  → biz/growth/referral-program.md     # Referral + viral loop design
+  → biz/growth/churn-prevention.md     # Cancel flow, save offers, intervention
+  → biz/growth/dunning.md              # Payment failure recovery
+  → biz/growth/cro/                    # Per-page/flow CRO analyses
+  → Experiment results → z-data-analyst # Handoff for statistical analysis
+```
+
+## 7. Operate → Iterate
 
 ```
   → biz/ops/faq.md                  # FAQ from user questions

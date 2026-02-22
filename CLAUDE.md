@@ -93,14 +93,23 @@ All commands are in `justfile`. Run `just --list` to see available recipes.
 
 ## Marketing
 ### Marketing Workflow
-- Strategy & content: **z-growth-marketer** Agent
+- Strategy & content: **z-marketer** Agent
 - Copywriting: **z-copywriting** Skill
 - SEO/AEO/GEO: **z-search-visibility** Skill
 - All content references `docs/product-brief.md` and `biz/marketing/strategy.md`
 
+## Growth
+### Growth Workflow
+- Experiments & optimization: **z-growth-optimizer** Agent
+- CRO: **z-cro** Skill
+- Churn prevention: **z-churn-prevention** Skill
+- Experiment results are handed off to **z-data-analyst** for statistical analysis
+- All outputs go to `biz/growth/`
+
 ## Analytics
 ### Analytics Workflow
 - Tracking & analysis: **z-data-analyst** Agent
+- Methodology: **z-product-analytics** Skill
 - Event implementation follows `biz/analytics/tracking-plan.md`
-- PostHog plugin for data queries
+- PostHog MCP server for data queries
 - Kill/Keep/Scale decisions per `biz/analytics/kill-criteria.md`

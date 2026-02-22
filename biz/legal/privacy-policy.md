@@ -1,5 +1,5 @@
 # Privacy Policy
 
-<!-- TODO: Generate using z-growth-marketer agent or legal skill -->
-<!-- Must cover: data collected, how used, third-party sharing, -->
-<!-- cookies/tracking, user rights (GDPR, CCPA, Korea PIPA), data retention -->
+<!-- What data you collect, why, and how it's used -->
+<!-- Must comply with GDPR, CCPA, Korea PIPA depending on your audience -->
+<!-- Managed by z-marketer agent -->

@@ -1,13 +1,5 @@
 # Competitor Analysis
 
-## Direct Competitors
-
-| Competitor | URL | Pricing | Strengths | Weaknesses | Our Differentiation |
-|-----------|-----|---------|-----------|------------|-------------------|
-| | | | | | |
-
-## Indirect Competitors / Alternatives
-<!-- How users solve this problem today without a dedicated tool -->
-
-## Positioning
-<!-- One sentence: "Unlike [competitor], we [differentiation] for [target user]" -->
+<!-- Strengths, weaknesses, and pricing of competing products -->
+<!-- Defines how your product is different. Used for "vs" pages and landing page copy -->
+<!-- Managed by z-marketer agent -->

@@ -1,7 +1,5 @@
 # Feedback Log
 
-<!-- Record all user feedback here. Review weekly to identify patterns. -->
-
-| Date | Source | User | Feedback | Category | Action Taken |
-|------|--------|------|----------|----------|-------------|
-| | email/chat/twitter/reddit | | | bug/feature-request/ux-issue/praise | |
+<!-- All user feedback logged by date, source, and content -->
+<!-- Look for patterns — when the same thing comes up repeatedly, it's a signal -->
+<!-- Managed manually. Referenced by z-data-analyst for qualitative analysis -->

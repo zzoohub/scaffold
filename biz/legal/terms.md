@@ -1,5 +1,4 @@
 # Terms of Service
 
-<!-- TODO: Generate using z-growth-marketer agent or legal skill -->
-<!-- Must cover: service description, user obligations, payment terms, -->
-<!-- termination, liability limitations, dispute resolution -->
+<!-- Legal agreement users accept. Covers service description, prohibited use, payments, liability -->
+<!-- Managed by z-marketer agent -->
