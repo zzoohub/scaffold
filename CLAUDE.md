@@ -2,10 +2,10 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
-<!-- TODO: Describe what this project does, who it's for, and core value proposition -->
+<!-- Describe what this project does, who it's for, and core value proposition -->
 
 ## Architecture
-<!-- TODO: Describe high-level architecture (e.g., "Axum API + Next.js web client + background workers") -->
+<!-- Describe high-level architecture (e.g., "Axum API + Next.js web client + background workers") -->
 
 ### Monorepo Structure
 ```
@@ -63,7 +63,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 3. Track progress — mark items complete as you go
 
 ## Domain Glossary
-<!-- TODO: Define domain-specific terms (e.g., "Workspace", "Member", "Plan") -->
+<!-- Define domain-specific terms (e.g., "Workspace", "Member", "Plan") -->
 
 ## Build & Dev Commands
 All commands are in `justfile`. Run `just --list` to see available recipes.
@@ -72,13 +72,13 @@ All commands are in `justfile`. Run `just --list` to see available recipes.
 ### API Workflow (MUST FOLLOW)
 - Schema changes: **z-database-design** → **z-api-design** (plan)
 - Default: **z-axum-hexagonal** + **z-postgresql** (queries)
-<!-- NOTE: If using FastAPI, replace z-axum-hexagonal with appropriate sub-agent -->
+<!-- If using FastAPI, replace z-axum-hexagonal with appropriate sub-agent -->
 
 ### API Conventions
-<!-- TODO: Define API conventions (e.g., error format, auth strategy, pagination style) -->
+<!-- Define API conventions (e.g., error format, auth strategy, pagination style) -->
 
 ## Worker
-<!--> TODO: If worker is needed -->
+<!--> If worker is needed -->
 
 ## Web
 ### Web Workflow (MUST FOLLOW)
@@ -92,16 +92,16 @@ All commands are in `justfile`. Run `just --list` to see available recipes.
 - **i18n**: Use `next-intl` for all UI text (Korean/English).
 - **Responsive**: Support all screen sizes.
 - **Dark mode**: Support light and dark themes.
-<!-- TODO: Add project-specific UI conventions -->
+<!-- Add project-specific UI conventions -->
 
 ## Mobile
 ### Mobile Workflow
 - UI components: **z-ui-engineer** Agent
 - Default: **z-react-native**
-<!-- NOTE: Add or replace sub-agent as needed -->
+<!-- Add or replace sub-agent as needed -->
 
 ### Mobile Conventions
 - **Navigation**: Expo Router (file-based routing).
 - **i18n**: Share translation keys with web where possible.
 - **Dark mode**: Support light and dark themes.
-<!-- TODO: Add project-specific mobile conventions -->
+<!-- Add project-specific mobile conventions -->
