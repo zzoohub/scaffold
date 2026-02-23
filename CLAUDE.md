@@ -62,11 +62,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. Verify plan with the user before starting implementation
 3. Track progress — mark items complete as you go
 
-## Domain Glossary
-<!-- Define domain-specific terms (e.g., "Workspace", "Member", "Plan") -->
-
 ## Build & Dev Commands
-All commands are in `justfile`. Run `just --list` to see available recipes.
+All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## API
 ### API Workflow (MUST FOLLOW)
