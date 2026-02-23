@@ -19,6 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   ├── migrations/
 │   └── seeds/
 ├── infra/                # Pulumi IaC
+├── tasks/                # todo.md, lessons.md (Claude Code workspace)
 ├── docs/                 # Product planning (what and how to build)
 ├── biz/                  # Business operations (how to sell & grow)
 └── scripts/
@@ -46,9 +47,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 3. Marketing content must reference `docs/product-brief.md` for consistent messaging.
 4. All user-facing events must be defined in `biz/analytics/tracking-plan.md` before implementation.
 5. Any change to architecture or feature specs must update the relevant docs in `docs/`.
+6. When the user corrects you, log the lesson to `tasks/lessons.md` with a rule to prevent recurrence.
+7. Read `tasks/lessons.md` at every session start.
 
 ### MUST NOT
 - (project-specific anti-patterns here)
+
+### Before Completion Checklist
+- [ ] Diff behavior between main and your changes when relevant
+- [ ] Ask yourself: "Would a staff engineer approve this?"
+
+### Complex Tasks (5+ steps)
+1. Write plan to `tasks/todo.md` with checkable items
+2. Verify plan with the user before starting implementation
+3. Track progress — mark items complete as you go
 
 ## Domain Glossary
 <!-- TODO: Define domain-specific terms (e.g., "Workspace", "Member", "Plan") -->
