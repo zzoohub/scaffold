@@ -34,6 +34,7 @@ z-product-brief                         # You describe the idea
   → z-ux-designer (agent)               # UX spec → docs/ux-design.md
     + Google Stitch (MCP)               # Visual mockups (parallel)
   → z-ui-engineer (agent)               # Component implementation
+  → z-interactive-engineer (agent)       # Motion, 3D, gestures, atmosphere
   → You review the UX and approve
 ```
 
