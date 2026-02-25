@@ -58,9 +58,8 @@ z-data-analyst (parallel with above)    # Tracking plan defined during design
   → biz/analytics/dashboards.md         # Dashboard specs for PostHog
   → biz/analytics/kill-criteria.md      # What numbers trigger Kill / Keep / Scale
 
-Backend implementation              # z-axum-hexagonal (includes tracking events in code)
-Frontend implementation             # z-nextjs (includes tracking events in code)
-z-interactive-engineer (agent)       # Motion, 3D, gestures, atmosphere
+Backend implementation
+Frontend implementation            
 ```
 
 **Test strategy at this stage:** Unit tests + integration tests only.
