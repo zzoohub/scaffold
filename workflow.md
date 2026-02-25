@@ -49,7 +49,7 @@ z-software-architect                    # Design doc
   → docs/design-doc.md
 z-database-architect                    # DB design 
   → docs/database-design.md
-z-api-design                            # API endpoints (plan)
+z-rest-api-design                            # API endpoints (plan)
   → openapi/openapi.yaml
 
 z-data-analyst (parallel with above)    # Tracking plan defined during design

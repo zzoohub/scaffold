@@ -41,10 +41,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### MUST
 1. All changes must use skills, including after plan mode.
 2. After implementation, check if sub-agents are needed and run in parallel:
-   - **z-security-reviewer**: logic change only (API, auth, data, infra)
-   - **z-tester**: testable code change (new/modified functions, branches)
-   - **z-verify-app**: any app-affecting change (typecheck → test → browser)
-   > Skip all for docs/copy-only changes. Skip browser test if `/chrome` unavailable.
+   - **z-security-reviewer**: Run when changes affect security-sensitive areas (auth, data access, API endpoints).
+   - **z-verifier**: Run when changes include testable code (new/modified functions, logic branches). 
+   > Skip all for docs/copy-only changes. Skip browser test if `claude-in-chrome` MCP is unavailable.
 3. Marketing content must reference `docs/product-brief.md` for consistent messaging.
 4. All user-facing events must be defined in `biz/analytics/tracking-plan.md` before implementation.
 5. Any change to architecture or feature specs must update the relevant docs in `docs/`.
@@ -57,7 +56,7 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## API
 ### API Workflow (MUST FOLLOW)
-- Schema changes: **z-database-design** → **z-api-design** (plan)
+- Schema changes: **z-database-design** → **z-rest-api-design** (plan)
 - Default: **z-axum-hexagonal** + **z-postgresql** (queries)
 <!-- If using FastAPI, replace z-axum-hexagonal with appropriate sub-agent -->
 
@@ -65,7 +64,7 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 <!-- Define API conventions (e.g., error format, auth strategy, pagination style) -->
 
 ## Worker
-<!--> If worker is needed -->
+<!-- If worker is needed -->
 
 ## Web
 ### Web Workflow (MUST FOLLOW)
@@ -76,7 +75,7 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 - `app(routing) → views → widgets → features → entities → shared` (never import upward)
 
 ### Web Conventions
-- **i18n**: Use `next-intl` for all UI text (Korean/English).
+- **i18n**: Use `next-intl`. All user-facing text must support English and Korean.
 - **Responsive**: Support all screen sizes.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific UI conventions -->
@@ -88,6 +87,6 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 <!-- Add or replace sub-agent as needed -->
 
 ### Mobile Conventions
-- **i18n**: Share translation keys with web where possible.
+- **i18n**: All user-facing text must support English and Korean. Share translation keys with web where possible.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific mobile conventions -->
