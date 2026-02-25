@@ -19,7 +19,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   ├── migrations/
 │   └── seeds/
 ├── infra/                # Pulumi IaC
-├── tasks/                # todo.md, lessons.md (Claude Code workspace)
+├── openapi/
+│   └── openapi.yaml      # API contract (source of truth)
 ├── docs/                 # Product planning (what and how to build)
 ├── biz/                  # Business operations (how to sell & grow)
 └── scripts/
@@ -68,8 +69,8 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## Web
 ### Web Workflow (MUST FOLLOW)
-- UI components: **z-ui-engineer** Agent
-- Default: **vercel-composition-patterns** (implementation) → **vercel-react-best-practices** (review)
+- Design System: **z-design-system**
+- Default: **vercel-composition-patterns** (implementation) → **vercel-react-best-practices** (improve)
 
 ### FSD Import Rules
 - `app(routing) → views → widgets → features → entities → shared` (never import upward)
@@ -82,12 +83,11 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## Mobile
 ### Mobile Workflow
-- UI components: **z-ui-engineer** Agent
-- Default: **z-react-native**
+- Design System: **z-design-system**
+- Default: **expo-app-design:building-native-ui** (implementation) → **vercel-react-native-skills** (improve)
 <!-- Add or replace sub-agent as needed -->
 
 ### Mobile Conventions
-- **Navigation**: Expo Router (file-based routing).
 - **i18n**: Share translation keys with web where possible.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific mobile conventions -->

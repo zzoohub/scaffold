@@ -33,9 +33,8 @@ z-product-brief                         # You describe the idea
   → z-prd-craft                         # PRD → docs/prd.md
   → z-ux-designer (agent)               # UX spec → docs/ux-design.md
     + Google Stitch (MCP)               # Visual mockups (parallel)
-  → z-ui-engineer (agent)               # Component implementation
-  → z-interactive-engineer (agent)       # Motion, 3D, gestures, atmosphere
-  → You review the UX and approve
+  → frontend-design (ui)                # UI 
+  → You review the Feature and UI/UX and approve
 ```
 
 ## 2. Architecture → Backend → Frontend + Tracking
@@ -46,9 +45,12 @@ Tracking plan is defined in parallel with architecture — so events are baked i
 the implementation from the start, not bolted on after.
 
 ```
-z-software-architect                    # Design doc → docs/design-doc.md
-  → z-database-architect                # DB design → docs/database-design.md
-  → z-api-design                        # API endpoints (plan)
+z-software-architect                    # Design doc 
+  → docs/design-doc.md
+z-database-architect                    # DB design 
+  → docs/database-design.md
+z-api-design                            # API endpoints (plan)
+  → openapi/openapi.yaml
 
 z-data-analyst (parallel with above)    # Tracking plan defined during design
   → biz/analytics/tracking-plan.md      # Events + Aha Moment definition
@@ -56,13 +58,9 @@ z-data-analyst (parallel with above)    # Tracking plan defined during design
   → biz/analytics/dashboards.md         # Dashboard specs for PostHog
   → biz/analytics/kill-criteria.md      # What numbers trigger Kill / Keep / Scale
 
-  → Backend implementation              # z-axum-hexagonal / z-fastapi-hexagonal
-                                        # (includes tracking events in code)
-  → Frontend implementation             # z-nextjs
-                                        # (includes tracking events in code)
-  → (auto, parallel)
-      z-security-reviewer               # Security audit → fix
-      z-tester                          # Unit + integration tests → fix
+Backend implementation              # z-axum-hexagonal (includes tracking events in code)
+Frontend implementation             # z-nextjs (includes tracking events in code)
+z-interactive-engineer (agent)       # Motion, 3D, gestures, atmosphere
 ```
 
 **Test strategy at this stage:** Unit tests + integration tests only.
@@ -78,8 +76,7 @@ so every subsequent push goes through the pipeline.
 - [ ] Stack init (staging / production)
 - [ ] State backend configured
 - [ ] Resources defined:
-  - Cloud Run services — API / Worker (GCP)
-  - Secret Manager — API keys, DB credentials, third-party tokens
+  - Cloud Run services — API / Worker (GCP)  
   - IAM service accounts
   - Domain + DNS + SSL (Cloudflare)
   - PostgreSQL (Neon)
