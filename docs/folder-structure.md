@@ -66,123 +66,123 @@ src/
 ```
 
 
-## Web 3D / WebXR Project Scaffold (TanStack Start)
+## Web 3D / WebXR (TanStack Router)
 
 ### Base Structure
 
+```
 src/
-├── routes/                  # TanStack Start file-based routing
-│   ├── __root.tsx           # Root layout (html shell, providers, global UI)
+├── routes/                     # TanStack Router file-based routing
+│   ├── __root.tsx
 │   ├── index.tsx
 │   └── ...
-├── router.tsx               # Router config (getRouter export)
-├── routeTree.gen.ts         # Auto-generated (do not edit)
+├── router.tsx
+├── routeTree.gen.ts            # Auto-generated (do not edit)
 │
-├── scene/                   # 3D world (R3F components)
-│   ├── canvas.tsx           # Canvas wrapper + defaults
-│   ├── objects/             # Reusable 3D objects
-│   ├── environments/        # Lighting, skybox, post-processing
-│   ├── cameras/             # Camera rigs & controllers
-│   ├── materials/           # Custom materials / shaders
-│   └── helpers/             # Debug visuals, gizmos, grid
+├── scene/                      # 3D world (R3F components)
+│   ├── canvas.tsx              # WebGPU detect → WebGL fallback
+│   ├── objects/
+│   ├── environments/           # Lighting, skybox, post-processing
+│   ├── cameras/
+│   ├── materials/
+│   │   ├── create-material.ts  # Factory: (type, renderer) → Material
+│   │   └── *.ts                # Each file handles its own WebGPU/WebGL branch
+│   ├── hooks/
+│   │   ├── ecs/                # ECS → R3F read-only bridge (useQuery, useEntity)
+│   │   └── physics/            # Physics state reads for R3F
+│   └── helpers/
 │
-├── xr/                      # WebXR (omit if not needed)
-│   ├── session.tsx          # XR session management
-│   ├── controllers/         # Hand / controller mapping
-│   ├── interactions/        # Grab, teleport, gaze, poke
-│   └── spaces/              # XR-specific spatial layouts
+├── xr/                         # WebXR (omit if not needed)
+│   ├── session.tsx
+│   ├── controllers/
+│   ├── interactions/
+│   └── spaces/
 │
-├── ui/                      # 2D interface
+├── ui/                         # 2D interface
 │   ├── design-system/
 │   ├── components/
-│   ├── hud/                 # Overlay on top of 3D
-│   ├── panels/              # Side panels, inspectors
+│   ├── hud/                    # Overlay on 3D
+│   ├── panels/
 │   └── layout/
 │
-└── shared/
+└── shared/                     # Referenced by all layers above
+    ├── stores/                 # Zustand — UI/meta only. Never imports engine/ or domains/
     ├── types/
     ├── constants/
     ├── hooks/
     ├── utils/
-    └── assets/              # glTF, textures, audio
-        ├── models/
-        ├── textures/
-        └── loaders.ts
+    └── assets/                 # glTF, textures, audio
+```
 
+Each folder exposes public API via index.ts barrel only. No cross-import within same layer.
 
 ### Extensions (add only when triggered)
 
-+ engine/                        ← complex frame loop; needs React-independent execution
-│   ├── ecs/                     ← hundreds of homogeneous entities
-│   │   ├── components/          # Pure data definitions
-│   │   ├── systems/             # Pure logic (stateless)
+```
++ engine/                       ← Never imports React
+│   ├── ecs/                    # Koota — frame loop state (position, velocity, AI)
+│   │   ├── components/         #   Pure data definitions
+│   │   ├── systems/            #   Pure logic (stateless)
 │   │   ├── queries/
-│   │   ├── prefabs/             # Entity templates (composition)
+│   │   ├── prefabs/
 │   │   └── world.ts
-│   ├── ports/                   ← library swap likely
+│   ├── ports/
 │   ├── adapters/
-│   ├── physics/
-│   └── shaders/                 # Custom TSL / GLSL
+│   │   └── rapier/             # Physics → ECS sync (no React)
+│   ├── physics/                ← Imperative Rapier WASM (graduate from @react-three/rapier)
+│   └── shaders/                # TSL / GLSL
 │
-+ domains/                       ← 2+ independent scenes/modes
++ domains/                      ← 2+ independent scenes/modes
 │   └── [domain-name]/
-│       ├── use-cases/           # Scenario logic (pure functions)
-│       ├── Scene.tsx            # Composes engine + scene + ui
+│       ├── use-cases/
+│       ├── stores/             # Domain-scoped Zustand (reads engine via scene/hooks/)
+│       ├── Scene.tsx
 │       ├── config.ts
-│       └── ui/                  # Domain-specific UI
+│       └── ui/
 │
-+ networking/                    ← multiplayer or real-time sync
-│   ├── client.ts
-│   ├── state-sync.ts
-│   ├── interpolation.ts
-│   └── authority.ts
++ networking/                   ← Multiplayer or real-time sync
++ content/                      ← External data injected into 3D scene
 │
-+ content/                       ← external data injected into 3D scene
-│   └── (project-specific)       # Structure depends on domain
++ workers/
+│   └── compute-worker.ts      # Imports bindings from wasm-out/
 │
-+ workers/                       ← heavy computation offload
-    ├── compute-worker.ts
-    └── wasm/
-
-
-### Skip Conditions
-
-| Layer        | Skip if                                      |
-|--------------|----------------------------------------------|
-| engine/      | static scenes or simple interactions         |
-| engine/ecs/  | < 10 unique objects with distinct behavior   |
-| engine/ports/| locked-in dependencies                       |
-| domains/     | single unified scene                         |
-| networking/  | single-user only                             |
-| content/     | no external data source; pure 3D experience  |
-| workers/     | all logic runs fine on main thread            |
-
++ crates/                       ← Rust source (project root, Cargo workspace)
+│   └── compute/src/
++ wasm-out/                     ← Build artifacts only (project root, gitignored)
+```
 
 ### Dependency Direction
 
-routes/ → domains → engine   (React-free, pure logic)
-            ↓
-          scene              (R3F components)
-            ↓
-           ui                (2D overlay)
-            ↓
-         shared              (referenced by all)
+```
+┌─────────────────────────────────────────────────────┐
+│  routes/                                            │
+│    ↓                                                │
+│  domains/          ← composes everything below      │
+│    ↓                                                │
+│  engine/           ← pure logic, never imports React│
+│    ↓                                                │
+│  scene/            ← R3F components                 │
+│    ↓                                                │
+│  ui/               ← 2D overlay                     │
+│    ↓                                                │
+│  shared/           ← referenced by all above        │
+└─────────────────────────────────────────────────────┘
 
-xr         → scene
-networking → engine
-workers    → engine
+Cross-links (→ means "depends on"):
 
+  xr/           → scene/
+  networking/   → engine/
+  workers/      → engine/
 
-### Invariants
+Bridges:
 
-1. Public API via index.ts barrel only — internal files never imported from outside
-2. No cross-import within same layer — shared logic moves to engine/ or shared/
-3. engine/ never imports React
+  scene/hooks/ecs/     → engine/ecs/      React reads ECS (not the reverse)
+  engine/adapters/     → engine/ecs/      Physics syncs into ECS (no React)
+  domains/stores/      → scene/hooks/     Domain Zustand reads engine via bridge
 
+State ownership:
 
-### Presets
-
-3D Landing Page         → routes + scene + ui + shared
-VR Product Showroom     → + xr + content
-Multiplayer VR Social   → + xr + engine + networking + domains
-Physics Simulation      → + xr + engine(full) + domains + content + workers
+  Zustand  shared/stores/         UI/meta (theme, modal, prefs)
+  Zustand  domains/[name]/stores/ Domain UI (editor mode, tool selection)
+  Koota    engine/ecs/            Simulation (position, velocity, AI)
+```
