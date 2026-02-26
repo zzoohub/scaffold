@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   ├── api/              # Backend API
 │   └── worker/           # Queue, cron, pub/sub handlers
 ├── clients/
-│   ├── web/              # Next.js frontend
+│   ├── web/
 │   └── mobile/           # Expo React Native
 ├── db/
 │   ├── migrations/
@@ -75,7 +75,7 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 - `app(routing) → views → widgets → features → entities → shared` (never import upward)
 
 ### Web Conventions
-- **i18n**: Use `next-intl`. All user-facing text must support English and Korean.
+- **i18n**: All user-facing text must support English, Spanish, Portuguese, and Korean.
 - **Responsive**: Support all screen sizes.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific UI conventions -->
@@ -87,6 +87,6 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 <!-- Add or replace sub-agent as needed -->
 
 ### Mobile Conventions
-- **i18n**: All user-facing text must support English and Korean. Share translation keys with web where possible.
+- **i18n**: All user-facing text must support English, Spanish, Portuguese, and Korean. Share translation keys with web where possible.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific mobile conventions -->
