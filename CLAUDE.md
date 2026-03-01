@@ -67,14 +67,15 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## Web
 ### Web Workflow (MUST FOLLOW)
-- Design System: **z-design-system**
-- Default: **vercel-composition-patterns** (composition) → **vercel-react-best-practices** (optimization)
+- Design system: **z-design-system**
+- UI: **frontend-design**
+- Web source code: **vercel-composition-patterns** (composition) → **vercel-react-best-practices** (optimization)
 
 ### FSD Import Rules
 - `app(routing) → views → widgets → features → entities → shared` (never import upward)
 
 ### Web Conventions
-- **Type Safety**: Enforce the strictest TypeScript compiler options.
+- **Type safety**: Enforce the strictest TypeScript compiler options.
 - **I18n**: All user-facing text must support en, es, pt-BR, id, ja and ko
 - **Responsive**: Support all screen sizes.
 - **Dark mode**: Support light and dark themes.
@@ -82,12 +83,12 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## Mobile
 ### Mobile Workflow
-- Design System: **z-design-system**
-- Default: **expo-app-design:building-native-ui** (implementation) → **vercel-react-native-skills** (improve)
+- Design system: **z-design-system**
+- Mobile source code: **expo-app-design:building-native-ui** (implementation) → **vercel-react-native-skills** (improve)
 <!-- Add or replace sub-agent as needed -->
 
 ### Mobile Conventions
-- **Type Safety**: Enforce the strictest TypeScript compiler options.
+- **Type safety**: Enforce the strictest TypeScript compiler options.
 - **I18n**: All user-facing text must support en, es, pt-BR, id, ja and ko.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific mobile conventions -->
