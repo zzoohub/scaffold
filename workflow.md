@@ -25,7 +25,7 @@ Review & approve
 Tracking plan is defined in parallel with architecture — events are baked in from the start.
 
 ```
-z-software-architect                  → docs/design-doc.md
+z-software-architecture               → docs/design-doc.md
 z-database-design                     → docs/database-design.md
 z-rest-api-design                     → openapi/openapi.yaml
 
