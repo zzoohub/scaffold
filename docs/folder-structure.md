@@ -109,9 +109,10 @@ src/
     └── assets/                 # glTF, textures, audio
 ```
 
-Each folder exposes public API via index.ts barrel only. No cross-import within same layer.
+Each folder exposes public API via `index.ts` barrel only. No cross-import within same layer.
 
-### Extensions (add only when triggered)
+#### Extensions (add only when triggered)
+
 ```
 + engine/                       ← Never imports React
 │   ├── ecs/                    # Koota — frame loop state (position, velocity, AI)
@@ -145,7 +146,8 @@ Each folder exposes public API via index.ts barrel only. No cross-import within 
 + wasm-out/                     ← Build artifacts only (project root, gitignored)
 ```
 
-### Dependency Direction
+#### Dependency Direction
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │  app/              ← framework-specific shell        │
@@ -162,19 +164,16 @@ Each folder exposes public API via index.ts barrel only. No cross-import within 
 └─────────────────────────────────────────────────────┘
 
 Cross-links (→ means "depends on"):
-
   xr/           → scene/
   networking/   → engine/
   workers/      → engine/
 
 Bridges:
-
   scene/hooks/ecs/     → engine/ecs/      React reads ECS (not the reverse)
   engine/adapters/     → engine/ecs/      Physics syncs into ECS (no React)
   domains/stores/      → scene/hooks/     Domain Zustand reads engine via bridge
 
 State ownership:
-
   Zustand  shared/stores/         UI/meta (theme, modal, prefs)
   Zustand  domains/[name]/stores/ Domain UI (editor mode, tool selection)
   Koota    engine/ecs/            Simulation (position, velocity, AI)
