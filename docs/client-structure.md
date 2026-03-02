@@ -4,9 +4,12 @@ Each folder exposes its public API via `index.ts` barrel only. No cross-import w
 
 ## Web & Mobile
 
-`src/app/` is the FSD app-layer: providers, global styles, and routing. Route files are thin wrappers that import views.
+App-layer handles providers, global styles, and routing. Route files are thin wrappers that import views. The app-layer location varies by framework:
 
-### `src/app/` internals (framework-specific)
+- **Next.js / Expo Router**: `src/app/` (framework convention)
+- **TanStack Start**: `src/` root (`src/routes/`, `src/router.tsx`, `src/styles.css`)
+
+### App-layer internals (framework-specific)
 
 **Next.js** (`src/app/`):
 ```
@@ -19,9 +22,9 @@ src/app/
 └── providers/
 ```
 
-**TanStack Start** (`src/app/`):
+**TanStack Start** (`src/`):
 ```
-src/app/
+src/
 ├── routes/          # File-based routing (TanStack Router)
 │   ├── __root.tsx   # Root layout
 │   ├── index.tsx    # Home (/) — import from @/views/
@@ -29,8 +32,7 @@ src/app/
 │       └── index.tsx
 ├── router.tsx       # Router configuration
 ├── routeTree.gen.ts # Auto-generated route tree
-├── globals.css
-└── providers/
+└── styles.css       # Global styles
 ```
 
 **Expo Router** (`src/app/`):
