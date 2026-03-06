@@ -66,14 +66,14 @@ src/
 ├── app/             # Providers, global styles, routing (see above)
 ├── views/           # Full page layouts (compose widgets)
 ├── widgets/         # Standalone sections (Header, Sidebar, StatsCards)
-├── features/        # User interactions (auth, send-comment, add-to-cart)
-│   └── auth/
+├── features/        # User interactions
+│   └── [feature]/
 │       ├── ui/
 │       ├── model/
 │       ├── api/
 │       └── actions/ # Server functions
-├── entities/        # Business objects (user, product, order)
-│   └── user/
+├── entities/        # Business objects
+│   └── [entity]/
 │       ├── ui/
 │       ├── model/
 │       └── api/
