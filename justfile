@@ -134,6 +134,25 @@ mobile-test *args:
 mobile-clean:
     rm -rf {{ mobile_dir }}/.expo {{ mobile_dir }}/node_modules
 
+# ─── E2E (Playwright) ────────────────────────────────────────────────────────
+# Runs from project root against e2e/ directory.
+# Expects playwright.config.ts at root.
+
+e2e-install:
+    cd e2e && bun install && bun playwright install --with-deps chromium
+
+e2e *args:
+    cd e2e && bun playwright test --project=chromium {{ args }}
+
+e2e-smoke:
+    cd e2e && bun playwright test --project=chromium --grep @smoke
+
+e2e-ui:
+    cd e2e && bun playwright test --ui
+
+e2e-report:
+    cd e2e && bun playwright show-report
+
 # ─── Quality ──────────────────────────────────────────────────────────────────
 
 lint: api-lint worker-lint web-lint mobile-lint
