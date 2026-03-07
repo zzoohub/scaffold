@@ -2,10 +2,11 @@ set dotenv-load := false
 
 # ─── Dynamic path resolution ─────────────────────────────────────────────────
 # Supports both monorepo (services/api, clients/web) and flat (api, web) layouts
-api_dir     := if path_exists("services/api") == "true" { "services/api" } else { "api" }
-worker_dir  := if path_exists("services/worker") == "true" { "services/worker" } else { "worker" }
-web_dir     := if path_exists("clients/web") == "true" { "clients/web" } else { "web" }
-mobile_dir  := if path_exists("clients/mobile") == "true" { "clients/mobile" } else { "mobile" }
+
+api_dir := if path_exists("services/api") == "true" { "services/api" } else { "api" }
+worker_dir := if path_exists("services/worker") == "true" { "services/worker" } else { "worker" }
+web_dir := if path_exists("clients/web") == "true" { "clients/web" } else { "web" }
+mobile_dir := if path_exists("clients/mobile") == "true" { "clients/mobile" } else { "mobile" }
 
 default:
     @just --list
@@ -76,7 +77,7 @@ worker-lint:
 worker-clean:
     cd {{ worker_dir }} && echo "TODO: clean worker artifacts"
 
-# ─── Web (Next.js) ───────────────────────────────────────────────────────────
+# ─── Web ───────────────────────────────────────────────────────────────────
 
 web-install:
     cd {{ web_dir }} && bun install
