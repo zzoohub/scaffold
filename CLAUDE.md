@@ -9,21 +9,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Monorepo Structure
 ```
-├── services/
-│   ├── api/              # Backend API
-│   └── worker/           # Queue, cron, pub/sub handlers
-├── clients/
-│   ├── web/
+├── apps/
+│   ├── api/              # Backend API → Cloud Run
+│   ├── worker/           # Background jobs → Cloud Run Jobs / CF Worker
+│   ├── web/              # Web client → CF Pages / Vercel
 │   └── mobile/           # Expo React Native
 ├── db/
 │   ├── migrations/
+│   ├── rollbacks/
 │   └── seeds/
-├── infra/                # Pulumi IaC
 ├── openapi/
 │   └── openapi.yaml      # API contract (source of truth)
 ├── docs/                 # Product planning (what and how to build)
 ├── biz/                  # Business operations (how to sell & grow)
-└── scripts/
+└── justfile              # dev, test, deploy commands
 ```
 
 ## Environment
