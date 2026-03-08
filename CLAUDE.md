@@ -22,6 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   └── openapi.yaml      # API contract (source of truth)
 ├── docs/                 # Product planning (what and how to build)
 ├── biz/                  # Business operations (how to sell & grow)
+├── e2e/                  # End-to-end tests
 └── justfile              # dev, test, deploy commands
 ```
 
