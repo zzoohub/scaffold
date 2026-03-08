@@ -38,7 +38,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Principles & Constraints
 ### MUST
-1. **TDD**: Write all tests first as a spec, then implement, then verify all pass. (Tests → Impl → Green).
+1. **TDD (STRICTLY ENFORCED — NO EXCEPTIONS)**:
+   NEVER write implementation code before tests. Follow this exact sequence:
+   1. Write ALL tests first as a complete spec
+   2. Run tests — confirm they FAIL (red)
+   3. Implement fully (no need for minimal/incremental steps)
+   4. Run tests — confirm ALL pass (green)
+   If you catch yourself writing implementation first, STOP and write the test first.
    - Axum: `nextest`
    - FastAPI: `pytest` + `httpx` + `anyio`
    - Next.js: `vitest` + `@testing-library/react`
