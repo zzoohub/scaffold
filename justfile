@@ -25,6 +25,8 @@ push type="chore" msg="":
             fix)      msg="fix: resolve bugs and minor issues" ;;
             docs)     msg="docs: update documentation and comments" ;;
             refactor) msg="refactor: clean up and improve code structure" ;;
+            test)     msg="test: add and update test coverage" ;;
+            ui)       msg="ui: update styles and visual changes" ;;
             *)        msg="chore: apply general updates and improvements" ;;
         esac
     fi
