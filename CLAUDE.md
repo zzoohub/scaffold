@@ -37,9 +37,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Redis   | Docker Compose (`6379`)     | TBD  |
 
 ## Principles & Constraints
-### MUST
-1. **TDD (STRICTLY ENFORCED — NO EXCEPTIONS)**:
-   NEVER write implementation code before tests. Follow this exact sequence:
+### MUST (STRICTLY ENFORCED — NO EXCEPTIONS)
+1. **TDD**: NEVER write implementation code before tests. Follow this exact sequence:
    1. Write ALL tests first as a complete spec
    2. Run tests — confirm they FAIL (red)
    3. Implement fully (no need for minimal/incremental steps)
@@ -49,7 +48,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - FastAPI: `pytest` + `httpx` + `anyio`
    - Next.js: `vitest` + `@testing-library/react`
    - TanStack/SolidJS: `vitest` + `@solidjs/testing-library`
-2. After implementation, run post-check sub-agents in parallel (skip for docs-only changes):
+2. **Post-check**: After implementation, run sub-agents in parallel (skip for docs-only changes):
    - **z-security-reviewer** (if auth/data/API changed)
    - **z-verifier** (e2e + browser verification)
    > Sub-agents report only. Fix → re-run → pass, then next step.
