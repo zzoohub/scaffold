@@ -1,12 +1,11 @@
 set dotenv-load := false
 
-# ─── Dynamic path resolution ─────────────────────────────────────────────────
-# Supports both monorepo (services/api, clients/web) and flat (api, web) layouts
+# ─── Path resolution ─────────────────────────────────────────────────────────
 
-api_dir := if path_exists("services/api") == "true" { "services/api" } else { "api" }
-worker_dir := if path_exists("services/worker") == "true" { "services/worker" } else { "worker" }
-web_dir := if path_exists("clients/web") == "true" { "clients/web" } else { "web" }
-mobile_dir := if path_exists("clients/mobile") == "true" { "clients/mobile" } else { "mobile" }
+api_dir := "apps/api"
+worker_dir := "apps/worker"
+web_dir := "apps/web"
+mobile_dir := "apps/mobile"
 
 default:
     @just --list
@@ -29,35 +28,30 @@ db-seed:
 
 db-reset: db-migrate db-seed
 
-# ─── API ──────────────────────────────────────────────────────────────────────
-# NOTE: Adjust for your backend (Axum: cargo run, FastAPI: uvicorn)
-
-api-install:
-    cd {{ api_dir }} && uv sync
+# ─── API (Rust / Axum) ──────────────────────────────────────────────────────
 
 api-dev:
-    cd {{ api_dir }} && PYTHONPATH=src uv run uvicorn app.main:create_app --factory --reload --host 0.0.0.0 --port 8080
-
-api-start:
-    cd {{ api_dir }} && PYTHONPATH=src uv run python -m app.main
+    cd {{ api_dir }} && cargo run
 
 api-test *args:
-    cd {{ api_dir }} && PYTHONPATH=src uv run pytest {{ args }}
+    cd {{ api_dir }} && cargo nextest run {{ args }}
 
 api-test-cov:
-    cd {{ api_dir }} && PYTHONPATH=src uv run pytest --cov=src --cov-report=term-missing
+    cd {{ api_dir }} && cargo llvm-cov nextest --lcov
 
 api-lint:
-    cd {{ api_dir }} && uv run ruff check .
+    cd {{ api_dir }} && cargo clippy -- -D warnings
+
+api-fmt:
+    cd {{ api_dir }} && cargo fmt --check
 
 api-clean:
-    rm -rf {{ api_dir }}/.venv {{ api_dir }}/__pycache__
+    cd {{ api_dir }} && cargo clean
 
-# ─── Worker ───────────────────────────────────────────────────────────────────
-# NOTE: Adjust commands for your framework (Celery, BullMQ, Temporal, etc.)
+# ─── Worker (Rust) ───────────────────────────────────────────────────────────
 
 worker-dev:
-    cd {{ worker_dir }} && echo "TODO: start all workers"
+    cd {{ worker_dir }} && cargo run
 
 worker-jobs:
     cd {{ worker_dir }} && echo "TODO: start job queue consumer"
@@ -69,15 +63,15 @@ worker-sub:
     cd {{ worker_dir }} && echo "TODO: start pub/sub subscribers"
 
 worker-test *args:
-    cd {{ worker_dir }} && echo "TODO: run worker tests" {{ args }}
+    cd {{ worker_dir }} && cargo nextest run {{ args }}
 
 worker-lint:
-    cd {{ worker_dir }} && echo "TODO: lint worker"
+    cd {{ worker_dir }} && cargo clippy -- -D warnings
 
 worker-clean:
-    cd {{ worker_dir }} && echo "TODO: clean worker artifacts"
+    cd {{ worker_dir }} && cargo clean
 
-# ─── Web ───────────────────────────────────────────────────────────────────
+# ─── Web ──────────────────────────────────────────────────────────────────────
 
 web-install:
     cd {{ web_dir }} && bun install
@@ -109,7 +103,7 @@ web-test-cov:
 web-clean:
     rm -rf {{ web_dir }}/.next {{ web_dir }}/coverage
 
-# ─── Mobile (Expo React Native) ───────────────────────────────────────────
+# ─── Mobile (Expo React Native) ──────────────────────────────────────────────
 
 mobile-install:
     cd {{ mobile_dir }} && bun install
@@ -136,8 +130,6 @@ mobile-clean:
     rm -rf {{ mobile_dir }}/.expo {{ mobile_dir }}/node_modules
 
 # ─── E2E (Playwright) ────────────────────────────────────────────────────────
-# Runs from project root against e2e/ directory.
-# Expects playwright.config.ts at root.
 
 e2e-install:
     cd e2e && bun install && bun playwright install --with-deps chromium
@@ -154,7 +146,7 @@ e2e-ui:
 e2e-report:
     cd e2e && bun playwright show-report
 
-# ─── Quality ──────────────────────────────────────────────────────────────────
+# ─── Quality ─────────────────────────────────────────────────────────────────
 
 lint: api-lint worker-lint web-lint mobile-lint
 
@@ -162,12 +154,15 @@ test: api-test worker-test web-test mobile-test
 
 check: lint test
 
-# ─── Build ────────────────────────────────────────────────────────────────────
+# ─── Build ───────────────────────────────────────────────────────────────────
 
 build service:
-    #!/usr/bin/env sh
-    if [ -d "services/{{ service }}" ]; then
-        docker build -t {{ service }} -f services/{{ service }}/Dockerfile .
-    else
-        docker build -t {{ service }} -f {{ service }}/Dockerfile .
-    fi
+    docker build -t {{ service }} -f apps/{{ service }}/Dockerfile .
+
+# ─── Deploy ──────────────────────────────────────────────────────────────────
+
+deploy-api:
+    gcloud run deploy api --source {{ api_dir }}
+
+deploy-worker:
+    gcloud run deploy worker --source {{ worker_dir }}
