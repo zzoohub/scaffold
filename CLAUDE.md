@@ -4,39 +4,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 <!-- Describe what this project does, who it's for, and core value proposition -->
 
-## Architecture
-<!-- Describe high-level architecture (e.g., "Axum API + Next.js web client + background workers") -->
-
-### Monorepo Structure
-```
-├── apps/
-│   ├── api/              # Backend API → Cloud Run
-│   ├── worker/           # Background jobs → Cloud Run Jobs / CF Worker
-│   ├── web/              # Web client → CF Pages / Vercel
-│   └── mobile/           # Expo React Native
-├── db/
-│   ├── migrations/
-│   ├── rollbacks/
-│   └── seeds/
-├── openapi/
-│   └── openapi.yaml      # API contract (source of truth)
-├── docs/                 # Product planning (what and how to build)
-├── biz/                  # Business operations (how to sell & grow)
-├── e2e/                  # End-to-end tests
-└── justfile              # dev, test, deploy commands
-```
-
-## Environment
-
-| Service | Dev                         | Prod |
-|---------|-----------------------------|------|
-| Web     | `localhost:3000`            | TBD  |
-| Mobile  | Expo Dev Client (`19000`)   | TBD  |
-| API     | `localhost:8080`            | TBD  |
-| Worker  | `localhost:8081~`           | TBD  |
-| DB      | Docker Compose (`5432`)     | TBD  |
-| Redis   | Docker Compose (`6379`)     | TBD  |
-
 ## Principles & Constraints
 ### MUST (STRICTLY ENFORCED — NO EXCEPTIONS)
 1. **TDD**: NEVER write implementation code before tests. Follow this exact sequence:
@@ -57,6 +24,39 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### MUST NOT
 - (project-specific anti-patterns here)
+
+## Architecture
+<!-- Describe high-level architecture (e.g., "Axum API + Next.js web client + background workers") -->
+
+### Monorepo Structure
+```
+├── apps/
+│   ├── api/              # Backend API → Cloud Run
+│   ├── worker/           # Background jobs → Cloud Run Jobs / CF Worker
+│   ├── web/              # Web client → CF Pages / Vercel
+│   └── mobile/           # Expo React Native
+├── db/
+│   ├── migrations/
+│   ├── rollbacks/
+│   └── seeds/
+├── openapi/
+│   └── openapi.yaml      # API contract (source of truth)
+├── e2e/                  # End-to-end tests
+├── docs/                 # Product planning (what and how to build)
+├── biz/                  # Business operations (how to sell & grow)
+└── justfile              # dev, test, deploy commands
+```
+
+## Environment
+
+| Service | Dev                         | Prod |
+|---------|-----------------------------|------|
+| Web     | `localhost:3000`            | TBD  |
+| Mobile  | Expo Dev Client (`19000`)   | TBD  |
+| API     | `localhost:8080`            | TBD  |
+| Worker  | `localhost:8081~`           | TBD  |
+| DB      | Docker Compose (`5432`)     | TBD  |
+| Redis   | Docker Compose (`6379`)     | TBD  |
 
 ## Build & Dev Commands
 All commands in `justfile`. Run `just --list` to see all recipes.
