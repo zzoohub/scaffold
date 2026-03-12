@@ -11,6 +11,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    2. Run tests — confirm they FAIL (red)
    3. Implement fully (no need for minimal/incremental steps)
    4. Run tests — confirm ALL pass (green)
+   If you catch yourself writing implementation first, STOP and write the test first.
+   - Axum: `nextest`
+   - FastAPI: `pytest` + `httpx` + `anyio`
+   - Next.js: `vitest` + `@testing-library/react`
+   - TanStack/SolidJS: `vitest` + `@solidjs/testing-library`
 2. **Post-check**: Run both sub-agents in parallel when all logic changes.
    Skip for cosmetic-only changes (styling, typos, renaming, formatting, docs).
    - **security-reviewer** + **verifier** (e2e + browser)
