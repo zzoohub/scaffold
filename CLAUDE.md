@@ -18,7 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - TanStack/SolidJS: `vitest` + `@solidjs/testing-library`
 2. **Post-check**: Run both sub-agents in parallel when all logic changes.
    Skip for cosmetic-only changes (styling, typos, renaming, formatting, docs).
-   - **z-security-reviewer** + **z-verifier** (e2e + browser)
+   - **security-reviewer** + **verifier** (e2e + browser)
    > Fix → re-run → all pass, then proceed. When in doubt, run.
 3. **Docs sync**: Any Changes to requirements, scope, architecture, data model, UX/UI, or structure → update `docs/`. API changes → also update `openapi/openapi.yaml`.
 
@@ -63,9 +63,9 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## API
 ### API Workflow (MUST FOLLOW)
-- Schema changes: **z-database-design** → **z-rest-api-design** (plan)
-- Default: **z-axum-hexagonal** + **z-postgresql** (queries)
-<!-- If using FastAPI, replace z-axum-hexagonal with appropriate sub-agent -->
+- Schema changes: **database-design** → **rest-api-design** (plan)
+- Default: **axum-hexagonal** + **postgresql** (queries)
+<!-- If using FastAPI, replace axum-hexagonal with appropriate sub-agent -->
 
 ### API Conventions
 <!-- Define API conventions (e.g., error format, auth strategy, pagination style) -->
@@ -75,10 +75,10 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## Web
 ### Web Workflow (MUST FOLLOW)
-- Design system: **z-design-system**
+- Design system: **design-system**
 - UI: **frontend-design**
 - Web source code:
-  - If **TanStack Start (SolidJS)** → **z-solidjs**
+  - If **TanStack Start (SolidJS)** → **solidjs**
   - If **Next.js** → **vercel-composition-patterns** (composition) → **vercel-react-best-practices** (optimization)
   
 
@@ -94,7 +94,7 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## Mobile
 ### Mobile Workflow
-- Design system: **z-design-system**
+- Design system: **design-system**
 - Mobile source code: **expo-app-design:building-native-ui** (implementation) → **vercel-react-native-skills** (improve)
 <!-- Add or replace sub-agent as needed -->
 
