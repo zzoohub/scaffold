@@ -27,7 +27,6 @@ Tracking plan is defined in parallel with architecture — events are baked in f
 ```
 software-architecture               → docs/design-doc.md
 database-design                     → docs/database-design.md
-rest-api-design                     → openapi/openapi.yaml
 
 data-analyst (parallel)
   → biz/analytics/tracking-plan.md       # events + Aha Moment

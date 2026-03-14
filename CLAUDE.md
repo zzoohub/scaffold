@@ -20,7 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    Skip for cosmetic-only changes (styling, typos, renaming, formatting, docs).
    - **security-reviewer** + **verifier** (e2e + browser)
    > Fix → re-run → all pass, then proceed. When in doubt, run.
-3. **Docs sync**: Any Changes to requirements, scope, architecture, data model, UX/UI, or structure → update `docs/`. API changes → also update `openapi/openapi.yaml`.
+3. **Docs sync**: Any Changes to requirements, scope, architecture, data model, UX/UI, or structure → update `docs/`.
 
 ### MUST NOT
 - (project-specific anti-patterns here)
@@ -39,8 +39,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   ├── migrations/
 │   ├── rollbacks/
 │   └── seeds/
-├── openapi/
-│   └── openapi.yaml      # API contract (source of truth)
 ├── e2e/                  # End-to-end tests
 ├── docs/                 # Product planning (what and how to build)
 ├── biz/                  # Business operations (how to sell & grow)
