@@ -10,11 +10,9 @@ Move on when you see organic pull. Kill after 2–3 pivots with no signal.
 ## 1. Plan
 
 ```
-product-manager (sub-agent)
+product-manager (Mode A)
   → product-brief                   → docs/prd/product-brief.md
-  → prd-craft                       → docs/prd/prd.md
-                                    → docs/prd/features/*.md
-                                    → TASKS.md
+  → prd-craft                       → docs/prd/prd.md + docs/prd/features/*.md
 
 plan-ceo-review                     → "Is this the right direction?" (once per PRD)
 ```
@@ -39,7 +37,19 @@ data-analyst (parallel)             → biz/analytics/
 
 ---
 
-## 3. Build (task-based loop)
+## 3. Tasks
+
+After design is finalized, generate the task breakdown.
+
+```
+product-manager (Mode E)            → TASKS.md
+```
+
+Tasks reflect architecture decisions from design-doc. Each task = one PR-sized session.
+
+---
+
+## 4. Build (task-based loop)
 
 Each task from TASKS.md = one session. Repeat until all tasks checked.
 
@@ -64,7 +74,7 @@ Exception: manually test payment flows before launch.
 
 ---
 
-## 4. Deploy
+## 5. Deploy
 
 Direct CLI deploy per service (`wrangler`, `gcloud`, `vercel`, `eas`). Deploy recipes in `justfile`.
 
@@ -82,7 +92,7 @@ Direct CLI deploy per service (`wrangler`, `gcloud`, `vercel`, `eas`). Deploy re
 
 ---
 
-## 5. Launch → Marketing
+## 6. Launch → Marketing
 
 Use **marketer** agent → outputs to `biz/marketing/`, `biz/legal/`, `biz/ops/`.
 
@@ -108,11 +118,11 @@ Runs in parallel — not a sequential step.
 - Daily: check feedback → `biz/ops/feedback-log.md`
 - Same question 3+ times → update FAQ
 - Incidents → follow `biz/ops/runbook.md`
-- Feed insights back into step 1, 3, or 7
+- Feed insights back into step 1, 4, or 8
 
 ---
 
-## 6. Measure → Decide
+## 7. Measure → Decide
 
 Check dashboard every morning (5 min). First Kill/Keep/Scale call at week 2.
 
@@ -125,12 +135,12 @@ Use **data-analyst** agent → `biz/analytics/reports/`.
 Fix in this order: **Retention → Activation → Acquisition**
 
 - **Kill** → Post-mortem, archive, move on same day.
-- **Keep** → Back to step 1 or 3. Fix the biggest problem.
-- **Scale** → Continue to step 7.
+- **Keep** → Back to step 1 or 4. Fix the biggest problem.
+- **Scale** → Continue to step 8.
 
 ---
 
-## 7. Grow → Optimize
+## 8. Grow → Optimize
 
 Only after Scale. Don't grow a leaky product.
 
