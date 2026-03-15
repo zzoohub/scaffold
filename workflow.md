@@ -7,79 +7,103 @@ Move on when you see organic pull. Kill after 2–3 pivots with no signal.
 
 ---
 
-## 1. Product → Design → UI
+## 1. Plan
 
 ```
-product-brief                       → docs/product-brief.md
-prd-craft                           → docs/prd.md
-ux-designer                         → docs/ux-design.md
-  + Stitch (parallel)               → visual mockups
-UI implementation
-Review feature and UX — revise upstream docs if needed
+product-manager (sub-agent)
+  → product-brief                   → docs/prd/product-brief.md
+  → prd-craft                       → docs/prd/prd.md
+                                    → docs/prd/features/*.md
+                                    → TASKS.md
+
+plan-ceo-review                     → "방향이 맞는가?" (PRD 단위, 1회)
 ```
 
 ---
 
-## 2. Architecture → Build
-
-Tracking plan is defined in parallel with architecture — events are baked in from the start.
+## 2. Design → Architecture
 
 ```
+ux-designer                         → docs/ux/ux-design.md + docs/ux/screens/*.md
+  + Stitch (parallel)               → visual mockups
+
 software-architecture               → docs/design-doc.md
 database-design                     → docs/database-design.md
+
+plan-eng-review                     → "아키텍처가 견고한가?" (설계 후, 1회)
 
 data-analyst (parallel)
   → biz/analytics/tracking-plan.md       # events + Aha Moment
   → biz/analytics/funnels.md             # funnel stages + target rates
   → biz/analytics/dashboards.md          # PostHog dashboard specs
   → biz/analytics/kill-criteria.md       # Kill / Keep / Scale criteria
-
-Backend implementation
-Frontend implementation
-  + sentry error tracking 
-  + posthog user tracking 
 ```
 
-Unit + integration tests only. E2E comes after Scale (step 6).
+---
+
+## 3. Build (task-based loop)
+
+Each task from TASKS.md = one session. Repeat until all tasks checked.
+
+```
+TASKS.md → next unchecked task
+  ↓
+Read docs/prd/prd.md + docs/prd/features/{feature}.md
+  ↓
+TDD (write tests → fail → implement → pass)
+  ↓
+reviewer + verifier (task당 1회, 병렬)
+  ├─ reviewer: security (OWASP) + code quality (2-pass)
+  └─ verifier: browser QA (browse binary) + E2E tests
+  ↓
+Fix if needed → re-run → all pass
+  ↓
+TASKS.md 체크 → docs/ 동기화 → commit → push
+```
+
+Unit + integration tests via TDD. E2E via verifier per task.
 Exception: manually test payment flows before launch.
 
 ---
 
-## 3. Deploy
+## 4. Deploy
 
-Set up CI/CD first so every push goes through the pipeline.
+Direct CLI deploy per service. No IaC layer — keep it simple.
 
-### Responsibility split
+### Deploy commands
 
-| Owner | Scope |
-|-------|-------|
-| **`~/apps/infra` (Pulumi)** | Cloud Run, Artifact Registry, IAM/WIF, Neon DB, Cloudflare R2, Sentry, Vercel, PostHog |
-| **Each service repo CI** | Docker image build + `gcloud run deploy` |
-| **Manual** | Cloudflare DNS, EAS (`eas.json` + CLI) |
+All in `justfile`. Example recipes:
 
-### Infra — `~/apps/infra` repo (Pulumi)
+```
+just deploy-api          # gcloud run deploy
+just deploy-worker       # wrangler deploy (CF Worker)
+just deploy-web          # vercel deploy --prod (or git push)
+just deploy-mobile       # eas build + eas submit
+just db-migrate          # neon CLI or psql
+```
 
-Provisioning is centralized in a standalone repo, not per-project.
+### Per-service setup
 
-1. Add `services/<name>/` with needed resource files (cloud-run, neon, sentry, etc.)
-2. Import + call in root `index.ts`
-3. Set secrets: `just cfg-secret <name>:<key> <value>`
-4. `pulumi up`
-
-See `~/apps/infra/docs/setup.md` for initial provider setup and secret management.
+| Service | Platform | Deploy | Secrets |
+|---------|----------|--------|---------|
+| API | Cloud Run | `gcloud run deploy` | `gcloud run services update --set-env-vars` |
+| Worker | CF Workers | `wrangler deploy` | `wrangler secret put` |
+| Web | Vercel / CF Pages | git push (auto) | Vercel dashboard / `wrangler pages secret put` |
+| DB | Neon | Dashboard / `neon` CLI | Connection string in `.env` |
+| Mobile | EAS | `eas build` + `eas submit` | `eas secret:push` |
 
 ### DB
-- Run migrations
+- Run migrations before deploy
 - Seed data (if needed)
-- Backup schedule
+- Neon branching for staging
 
-### CI/CD (per service repo)
-- Dockerfile per service
-- GitHub Actions: build → push to Artifact Registry → `gcloud run deploy`
-- GitHub Secrets: `WIF_PROVIDER`, `WIF_SERVICE_ACCOUNT`
+### Secrets
+- Local: `.env` (gitignored)
+- Production: each platform's secret management (see table above)
+- Shared secrets across services: document in `.env.example`
 
 ### Mobile (if applicable)
-- EAS project + build profiles
+- EAS project + build profiles (`eas.json`)
 - EAS Update (OTA) channel
 - App Store / Play Store credentials
 
@@ -91,7 +115,7 @@ See `~/apps/infra/docs/setup.md` for initial provider setup and secret managemen
 
 ---
 
-## 4. Launch → Marketing
+## 5. Launch → Marketing
 
 ```
 marketer
@@ -120,11 +144,11 @@ Runs in parallel — not a sequential step.
 - Daily: check feedback → `biz/ops/feedback-log.md`
 - Same question 3+ times → update FAQ
 - Incidents → follow `biz/ops/runbook.md`
-- Feed insights back into step 1, 2, or 6
+- Feed insights back into step 1, 3, or 7
 
 ---
 
-## 5. Measure → Decide
+## 6. Measure → Decide
 
 Check dashboard every morning (5 min). First Kill/Keep/Scale call at week 2.
 
@@ -142,12 +166,12 @@ data-analyst
 Fix in this order: **Retention → Activation → Acquisition**
 
 - **Kill** → Post-mortem, archive, move on same day.
-- **Keep** → Back to step 1 or 2. Fix the biggest problem.
-- **Scale** → Continue to step 6.
+- **Keep** → Back to step 1 or 3. Fix the biggest problem.
+- **Scale** → Continue to step 7.
 
 ---
 
-## 6. Grow → Optimize
+## 7. Grow → Optimize
 
 Only after Scale. Don't grow a leaky product.
 

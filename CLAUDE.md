@@ -4,7 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 <!-- Describe what this project does, who it's for, and core value proposition -->
 
-## Principles & Constraints
+## Task-Based Development Loop (MUST FOLLOW)
+
+Each session = one task from `TASKS.md`. Follow this loop:
+
+```
+1. Read    TASKS.md + docs/prd/features/{feature}.md
+2. TDD     Write tests → confirm FAIL → implement → confirm PASS
+3. Review  reviewer + verifier (task당 1회, 병렬)
+4. Done    TASKS.md 체크 → commit → push
+```
+
 ### MUST (STRICTLY ENFORCED — NO EXCEPTIONS)
 1. **TDD**: NEVER write implementation code before tests. Follow this exact sequence:
    1. Write ALL tests first as a complete spec
@@ -16,11 +26,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - FastAPI: `pytest` + `httpx` + `anyio`
    - Next.js: `vitest` + `@testing-library/react`
    - TanStack/SolidJS: `vitest` + `@solidjs/testing-library`
-2. **Post-check**: Run both sub-agents in parallel when all logic changes.
+2. **Post-check**: Run both sub-agents in parallel **once per task** (not per implementation).
    Skip for cosmetic-only changes (styling, typos, renaming, formatting, docs).
-   - **security-reviewer** + **verifier** (e2e + browser)
-   > Fix → re-run → all pass, then proceed. When in doubt, run.
-3. **Docs sync**: Any Changes to requirements, scope, architecture, data model, UX/UI, or structure → update `docs/`.
+   - **reviewer** (security + code quality, 2-pass: CRITICAL/INFORMATIONAL)
+   - **verifier** (browser QA via browse binary + E2E tests)
+   > Fix → re-run → all pass, then commit. When in doubt, run.
+3. **Docs sync**: Changes to requirements, scope, architecture, data model, UX/UI, or structure → update `docs/`.
 
 ### MUST NOT
 - (project-specific anti-patterns here)
@@ -40,8 +51,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   ├── rollbacks/
 │   └── seeds/
 ├── e2e/                  # End-to-end tests
-├── docs/                 # Product planning (what and how to build)
+├── docs/
+│   ├── prd/
+│   │   ├── product-brief.md    # Strategic one-pager
+│   │   ├── prd.md              # Vision + tech stack + dev order
+│   │   └── features/           # Feature specs (requirements, journeys)
+│   ├── ux/
+│   │   ├── ux-design.md        # UX overview (IA, navigation, global patterns)
+│   │   └── screens/            # Per-screen UX specs
+│   ├── design-doc.md           # Software architecture
+│   └── database-design.md      # DB schema design
 ├── biz/                  # Business operations (how to sell & grow)
+├── TASKS.md              # Progress tracking (all features)
 └── justfile              # dev, test, deploy commands
 ```
 
