@@ -4,37 +4,34 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 <!-- Describe what this project does, who it's for, and core value proposition -->
 
-## Task-Based Development Loop (MUST FOLLOW)
+## Rules (STRICTLY ENFORCED — NO EXCEPTIONS)
 
-Each session = one task from `TASKS.md`. Follow this loop:
+1. **TDD**: NEVER write implementation before tests. Tests first → red → implement → green. If you catch yourself writing implementation first, STOP and write the test first.
+2. **Review once per task**: Run **reviewer** + **verifier** in parallel after all TDD passes. Fix → re-run → all pass, then commit. When in doubt, run. Skip only for cosmetic changes (styling, typos, docs).
+3. **Docs sync**: Changes to requirements, scope, architecture, data model, UX/UI → update `docs/`.
 
-```
-1. Read    TASKS.md + docs/prd/features/{feature}.md
-2. TDD     Write tests → confirm FAIL → implement → confirm PASS
-3. Review  reviewer + verifier (once per task, parallel)
-4. Done    check TASKS.md → commit → push
-```
+<!-- Add project test runner here (e.g., nextest, vitest, pytest) -->
 
-### MUST (STRICTLY ENFORCED — NO EXCEPTIONS)
-1. **TDD**: NEVER write implementation code before tests. Follow this exact sequence:
-   1. Write ALL tests first as a complete spec
-   2. Run tests — confirm they FAIL (red)
-   3. Implement fully (no need for minimal/incremental steps)
-   4. Run tests — confirm ALL pass (green)
-   If you catch yourself writing implementation first, STOP and write the test first.
-   - Axum: `nextest`
-   - FastAPI: `pytest` + `httpx` + `anyio`
-   - Next.js: `vitest` + `@testing-library/react`
-   - TanStack/SolidJS: `vitest` + `@solidjs/testing-library`
-2. **Post-check**: Run both sub-agents in parallel **once per task** (not per implementation).
-   Skip for cosmetic-only changes (styling, typos, renaming, formatting, docs).
-   - **reviewer** (security + code quality, 2-pass: CRITICAL/INFORMATIONAL)
-   - **verifier** (browser QA via browse binary + E2E tests)
-   > Fix → re-run → all pass, then commit. When in doubt, run.
-3. **Docs sync**: Changes to requirements, scope, architecture, data model, UX/UI, or structure → update `docs/`.
+---
 
-### MUST NOT
-- (project-specific anti-patterns here)
+## Development Loop
+
+Each session = one task from `TASKS.md`.
+
+### Step 1: Pick a task
+Open `TASKS.md`. Find the next unchecked task. Read `docs/prd/features/{feature}.md` for context.
+
+### Step 2: TDD
+Write ALL tests first → confirm FAIL → implement → confirm ALL PASS.
+
+### Step 3: Review
+- **reviewer** — security (OWASP) + code quality (2-pass: CRITICAL / INFORMATIONAL)
+- **verifier** — browser QA (browse binary) + E2E tests
+
+### Step 4: Done
+Check off task in `TASKS.md` → commit → push.
+
+---
 
 ## Architecture
 <!-- Describe high-level architecture (e.g., "Axum API + Next.js web client + background workers") -->
