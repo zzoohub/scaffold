@@ -45,7 +45,7 @@ After design is finalized, generate the task breakdown.
 product-manager (Mode E)            → TASKS.md
 ```
 
-Tasks reflect architecture decisions from design-doc. Each task = one PR-sized session.
+Tasks reflect architecture decisions from `docs/arch/`. Each task = one PR-sized session.
 
 ---
 
