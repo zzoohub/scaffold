@@ -56,7 +56,10 @@ Check off task in `TASKS.md` → commit → push.
 │   ├── ux/
 │   │   ├── ux-design.md        # UX overview (IA, navigation, global patterns)
 │   │   └── screens/            # Per-screen UX specs
-│   ├── design-doc.md           # Software architecture
+│   ├── arch/
+│   │   ├── context.md            # Problem, ASRs, domain model
+│   │   ├── design.md             # Patterns, components, data, deployment
+│   │   └── decisions.md          # ADRs, risk register, tech debt
 │   └── database-design.md      # DB schema design
 ├── biz/                  # Business operations (how to sell & grow)
 ├── TASKS.md              # Progress tracking (all features)

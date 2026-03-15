@@ -23,7 +23,7 @@ plan-ceo-review                     → "Is this the right direction?" (once per
 
 ```
 ux-designer                         → docs/ux/
-software-architecture               → docs/design-doc.md
+software-architecture               → docs/arch/
 database-design                     → docs/database-design.md
 plan-eng-review                     → "Is the architecture solid?" (once, after design)
 data-analyst (parallel)             → biz/analytics/
@@ -31,7 +31,7 @@ data-analyst (parallel)             → biz/analytics/
 
 ### Checklist
 - [ ] UX: IA + key screen specs (`docs/ux/screens/`)
-- [ ] Architecture: design-doc + database-design
+- [ ] Architecture: `docs/arch/` + database-design
 - [ ] plan-eng-review passed
 - [ ] Tracking plan: events, funnels, dashboards, kill criteria
 
