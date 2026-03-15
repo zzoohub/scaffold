@@ -16,7 +16,7 @@ product-manager (sub-agent)
                                     → docs/prd/features/*.md
                                     → TASKS.md
 
-plan-ceo-review                     → "방향이 맞는가?" (PRD 단위, 1회)
+plan-ceo-review                     → "Is this the right direction?" (once per PRD)
 ```
 
 ---
@@ -27,14 +27,14 @@ plan-ceo-review                     → "방향이 맞는가?" (PRD 단위, 1회
 ux-designer                         → docs/ux/
 software-architecture               → docs/design-doc.md
 database-design                     → docs/database-design.md
-plan-eng-review                     → "아키텍처가 견고한가?" (설계 후, 1회)
+plan-eng-review                     → "Is the architecture solid?" (once, after design)
 data-analyst (parallel)             → biz/analytics/
 ```
 
 ### Checklist
-- [ ] UX: IA + 주요 화면 스펙 (`docs/ux/screens/`)
+- [ ] UX: IA + key screen specs (`docs/ux/screens/`)
 - [ ] Architecture: design-doc + database-design
-- [ ] plan-eng-review 통과
+- [ ] plan-eng-review passed
 - [ ] Tracking plan: events, funnels, dashboards, kill criteria
 
 ---
@@ -50,13 +50,13 @@ Read docs/prd/prd.md + docs/prd/features/{feature}.md
   ↓
 TDD (write tests → fail → implement → pass)
   ↓
-reviewer + verifier (task당 1회, 병렬)
+reviewer + verifier (once per task, parallel)
   ├─ reviewer: security (OWASP) + code quality (2-pass)
   └─ verifier: browser QA (browse binary) + E2E tests
   ↓
 Fix if needed → re-run → all pass
   ↓
-TASKS.md 체크 → docs/ 동기화 → commit → push
+check TASKS.md → sync docs/ → commit → push
 ```
 
 Unit + integration tests via TDD. E2E via verifier per task.

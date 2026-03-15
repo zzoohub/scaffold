@@ -11,8 +11,8 @@ Each session = one task from `TASKS.md`. Follow this loop:
 ```
 1. Read    TASKS.md + docs/prd/features/{feature}.md
 2. TDD     Write tests → confirm FAIL → implement → confirm PASS
-3. Review  reviewer + verifier (task당 1회, 병렬)
-4. Done    TASKS.md 체크 → commit → push
+3. Review  reviewer + verifier (once per task, parallel)
+4. Done    check TASKS.md → commit → push
 ```
 
 ### MUST (STRICTLY ENFORCED — NO EXCEPTIONS)
