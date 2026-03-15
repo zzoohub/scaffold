@@ -24,20 +24,18 @@ plan-ceo-review                     → "방향이 맞는가?" (PRD 단위, 1회
 ## 2. Design → Architecture
 
 ```
-ux-designer                         → docs/ux/ux-design.md + docs/ux/screens/*.md
-  + Stitch (parallel)               → visual mockups
-
+ux-designer                         → docs/ux/
 software-architecture               → docs/design-doc.md
 database-design                     → docs/database-design.md
-
 plan-eng-review                     → "아키텍처가 견고한가?" (설계 후, 1회)
-
-data-analyst (parallel)
-  → biz/analytics/tracking-plan.md       # events + Aha Moment
-  → biz/analytics/funnels.md             # funnel stages + target rates
-  → biz/analytics/dashboards.md          # PostHog dashboard specs
-  → biz/analytics/kill-criteria.md       # Kill / Keep / Scale criteria
+data-analyst (parallel)             → biz/analytics/
 ```
+
+### Checklist
+- [ ] UX: IA + 주요 화면 스펙 (`docs/ux/screens/`)
+- [ ] Architecture: design-doc + database-design
+- [ ] plan-eng-review 통과
+- [ ] Tracking plan: events, funnels, dashboards, kill criteria
 
 ---
 
@@ -68,72 +66,38 @@ Exception: manually test payment flows before launch.
 
 ## 4. Deploy
 
-Direct CLI deploy per service. No IaC layer — keep it simple.
+Direct CLI deploy per service (`wrangler`, `gcloud`, `vercel`, `eas`). Deploy recipes in `justfile`.
 
-### Deploy commands
-
-All in `justfile`. Example recipes:
-
-```
-just deploy-api          # gcloud run deploy
-just deploy-worker       # wrangler deploy (CF Worker)
-just deploy-web          # vercel deploy --prod (or git push)
-just deploy-mobile       # eas build + eas submit
-just db-migrate          # neon CLI or psql
-```
-
-### Per-service setup
-
-| Service | Platform | Deploy | Secrets |
-|---------|----------|--------|---------|
-| API | Cloud Run | `gcloud run deploy` | `gcloud run services update --set-env-vars` |
-| Worker | CF Workers | `wrangler deploy` | `wrangler secret put` |
-| Web | Vercel / CF Pages | git push (auto) | Vercel dashboard / `wrangler pages secret put` |
-| DB | Neon | Dashboard / `neon` CLI | Connection string in `.env` |
-| Mobile | EAS | `eas build` + `eas submit` | `eas secret:push` |
-
-### DB
-- Run migrations before deploy
-- Seed data (if needed)
-- Neon branching for staging
-
-### Secrets
-- Local: `.env` (gitignored)
-- Production: each platform's secret management (see table above)
-- Shared secrets across services: document in `.env.example`
-
-### Mobile (if applicable)
-- EAS project + build profiles (`eas.json`)
-- EAS Update (OTA) channel
-- App Store / Play Store credentials
+### Setup checklist
+- [ ] Each service deploy command in `justfile`
+- [ ] Secrets configured per platform (`.env.example` documents what's needed)
+- [ ] DB migrations run before deploy
+- [ ] Mobile: EAS project + build profiles
 
 ### First deploy checklist
 - [ ] Staging → smoke test → Production
 - [ ] PostHog events firing
-- [ ] Sentry connected (API + Worker + Web + Mobile)
+- [ ] Sentry connected
 - [ ] Aha Moment event works end-to-end
 
 ---
 
 ## 5. Launch → Marketing
 
-```
-marketer
-  → biz/marketing/strategy.md            # positioning, audience, channels
-  → biz/marketing/pricing.md             # tiers and packaging
-  → biz/marketing/competitors.md         # competitive landscape
-  → biz/marketing/launch/                # PH, HN, Reddit drafts + checklist
-  → biz/marketing/content/               # email sequences, content calendar
-  → biz/marketing/assets/                # OG image, screenshots, demo
-  → biz/marketing/seo/                   # technical SEO (sitemap, meta, OG, robots.txt)
-  → biz/legal/                           # ToS, Privacy Policy
-  → biz/ops/                             # FAQ, runbook
-```
+Use **marketer** agent → outputs to `biz/marketing/`, `biz/legal/`, `biz/ops/`.
+
+### Checklist
+- [ ] Strategy: positioning, audience, channels
+- [ ] Pricing: tiers and packaging
+- [ ] Launch materials: PH, HN, Reddit drafts
+- [ ] SEO: sitemap, meta, OG, robots.txt
+- [ ] Legal: ToS, Privacy Policy
+- [ ] Assets: OG image, screenshots, demo
 
 ### Launch day
-- Post per `biz/marketing/launch/checklist.md`
-- Respond to all comments within 2 hours
-- Log feedback → `biz/ops/feedback-log.md`
+- [ ] Post per `biz/marketing/launch/checklist.md`
+- [ ] Respond to all comments within 2 hours
+- [ ] Log feedback → `biz/ops/feedback-log.md`
 
 ---
 
@@ -152,15 +116,10 @@ Runs in parallel — not a sequential step.
 
 Check dashboard every morning (5 min). First Kill/Keep/Scale call at week 2.
 
-```
-data-analyst
-  → biz/analytics/reports/               # weekly reports
-  → biz/analytics/health-score.md        # customer health score
-  → Kill / Keep / Scale recommendation
-```
+Use **data-analyst** agent → `biz/analytics/reports/`.
 
 **Week 1:** Observe. Respond to feedback. Don't optimize yet.
-**Week 2:** First evaluation per `biz/analytics/kill-criteria.md`
+**Week 2:** First Kill/Keep/Scale evaluation.
 **After:** Re-evaluate weekly until decision is clear.
 
 Fix in this order: **Retention → Activation → Acquisition**
@@ -175,19 +134,12 @@ Fix in this order: **Retention → Activation → Acquisition**
 
 Only after Scale. Don't grow a leaky product.
 
-```
-growth-optimizer
-  → biz/growth/experiments.md            # ICE-scored backlog + results
-  → biz/growth/referral-program.md       # referral + viral loops
-  → biz/growth/churn-prevention.md       # cancel flow, save offers
-  → biz/growth/dunning.md               # payment failure recovery
-  → biz/growth/cro/                      # per-page/flow CRO
-  → biz/growth/seo/                      # content SEO (keywords, blog, landing pages)
-  → Experiment results → data-analyst  # statistical analysis handoff
-```
+Use **growth-optimizer** agent → `biz/growth/`.
 
-### Now add E2E tests
-Product survived — protect core flows from regression.
+### Checklist
+- [ ] ICE-scored experiment backlog
+- [ ] Referral / viral loop design
+- [ ] Churn prevention: cancel flow, save offers, dunning
+- [ ] CRO: per-page/flow optimization
 - [ ] E2E for critical paths (signup → Aha Moment → payment)
-- [ ] Integrated into CI pipeline
-- [ ] Flaky tests: fix or delete within 48 hours
+- [ ] E2E integrated into CI pipeline
