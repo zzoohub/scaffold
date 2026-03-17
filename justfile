@@ -190,7 +190,7 @@ claude-sandbox *ARGS:
         :
     else
         LOCAL=$(docker run --rm --entrypoint claude claude-sandbox --version 2>/dev/null || echo "none")
-        LATEST=$(npm view @anthropic-ai/claude-code version 2>/dev/null)
+        LATEST=$(npm view @anthropic-ai/claude-code version 2>/dev/null || bun pm ls @anthropic-ai/claude-code 2>/dev/null | grep -oP '\d+\.\d+\.\d+')
         if [ "$LOCAL" != "$LATEST" ]; then
             echo "⬆ claude-code $LOCAL → $LATEST"
             docker build --build-arg CACHEBUST=$(date +%s) \
