@@ -10,7 +10,7 @@ Move on when you see organic pull. Kill after 2–3 pivots with no signal.
 ## 1. Plan
 
 ```
-product-manager (Mode A)
+product-manager (Mode A = Full Planning)
   → product-brief                   → docs/prd/product-brief.md
   → prd-craft                       → docs/prd/prd.md + docs/prd/features/*.md
 
@@ -22,10 +22,13 @@ plan-ceo-review                     → "Is this the right direction?" (once per
 ## 2. Design → Architecture
 
 ```
-ux-designer (parallel)              → docs/ux/
-architect (Mode A, parallel)        → docs/arch/ + docs/arch/database.md + db/migrations/
-plan-eng-review                     → "Is the architecture solid?" (once, after design)
-data-analyst (parallel)             → biz/analytics/
+ux-designer                           → docs/ux/
+  ↓
+architect (Mode A = Full Architecture)→ docs/arch/ + docs/arch/database.md + db/migrations/
+  ↓
+data-analyst                          → biz/analytics/
+  ↓
+plan-eng-review                       → "Is the architecture solid?" (once, after design)
 ```
 
 ### Checklist
@@ -42,7 +45,7 @@ data-analyst (parallel)             → biz/analytics/
 After design is finalized, generate the task breakdown.
 
 ```
-task-manager (Mode A)               → tasks/board.md + tasks/features/*.md
+task-manager (Mode A = Generate Tasks) → tasks/board.md + tasks/features/*.md
 ```
 
 Output structure:
@@ -73,7 +76,6 @@ Create team — route tasks to domain agents by `touches` path:
   apps/web/                    → frontend-developer
   apps/mobile/                 → mobile-developer
   apps/desktop/                → desktop-developer
-  other (e2e/, docs/, configs) → lead handles directly or assigns to most relevant
   ↓
 Each teammate (same repo, no worktree):
   Read tasks/features/{feature}.md for task context
@@ -82,11 +84,15 @@ Each teammate (same repo, no worktree):
   ↓
   reviewer + verifier (once per task, parallel)
     ├─ reviewer: security (OWASP) + code quality (2-pass)
-    └─ verifier: browser QA (browse binary) + E2E tests
+    └─ verifier: qa skill (browser) + E2E tests
   ↓
   Fix if needed → re-run → all pass
   ↓
   Update board.md status → done → commit → push
+
+Side duties (not routed as build tasks):
+  docs/  → plan agents (product-manager, architect, ux-designer) update on plan change
+  tasks/ → developers update board.md per task; task-manager maintains structure
 ```
 
 Phase N+1 starts after all Phase N tasks are done.
@@ -117,7 +123,7 @@ Direct CLI deploy per service (`wrangler`, `gcloud`, `vercel`, `eas`). Deploy re
 ## 6. Launch → Marketing
 
 Use **marketer** agent → `biz/marketing/strategy.md`, `launch/`, `pricing.md`, `competitors.md`
-Use **content-marketer** agent → `biz/marketing/content/`, `assets/`
+Use **content-marketer** agent → `biz/marketing/content/`, `biz/marketing/assets/`
 
 ### Checklist
 - [ ] Strategy: positioning, audience, channels (marketer)
