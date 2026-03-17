@@ -29,13 +29,24 @@ Each session = one task from `tasks/board.md`.
 
 ### Team Mode (Agent Orchestration)
 
+**Agent landscape:**
+- **Plan**: product-manager, ux-designer, architect, task-manager
+- **Build**: backend-developer, frontend-developer, mobile-developer, desktop-developer
+- **QA**: reviewer, verifier
+- **Biz**: marketer, data-analyst, growth-optimizer
+
 Process one phase at a time. Within each phase, tasks run in parallel.
 
 1. **Read board:** Open `tasks/board.md`. Identify the current phase (lowest phase with `backlog` tasks).
 2. **Check conflicts:** Tasks in the same phase must not share `touches` files. If they do, run them sequentially.
-3. **Spawn agents:** For each `backlog` task in the current phase, launch an Agent with `isolation: "worktree"`:
+3. **Spawn agents:** Route each task to the right domain agent by `touches` path:
+   - `apps/api/`, `apps/worker/`, `db/` → backend-developer
+   - `apps/web/` → frontend-developer
+   - `apps/mobile/` → mobile-developer
+   - `apps/desktop/` → desktop-developer
    ```
    Agent(
+     subagent_type: "backend-developer",
      prompt: "Do task T-003. Read tasks/features/file-parser.md section T-003 for full context.
               Follow project rules: TDD first, then implement. Run reviewer + verifier when done.",
      isolation: "worktree"

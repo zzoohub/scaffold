@@ -22,16 +22,16 @@ plan-ceo-review                     → "Is this the right direction?" (once per
 ## 2. Design → Architecture
 
 ```
-ux-designer                         → docs/ux/
-software-architecture               → docs/arch/
-database-design                     → docs/database-design.md
+ux-designer (parallel)              → docs/ux/
+architect (Mode A, parallel)        → docs/arch/ + docs/database-design.md + db/migrations/
 plan-eng-review                     → "Is the architecture solid?" (once, after design)
 data-analyst (parallel)             → biz/analytics/
 ```
 
 ### Checklist
 - [ ] UX: IA + key screen specs (`docs/ux/screens/`)
-- [ ] Architecture: `docs/arch/` + database-design
+- [ ] Architecture: `docs/arch/context.md`, `design.md`, `decisions.md`
+- [ ] Database: `docs/database-design.md` + `db/migrations/`
 - [ ] plan-eng-review passed
 - [ ] Tracking plan: events, funnels, dashboards, kill criteria
 
@@ -68,9 +68,13 @@ Process one phase at a time. Within each phase, tasks run in parallel.
 ```
 board.md → pick phase with remaining backlog tasks
   ↓
-Assign tasks to agents (check `touches` for file conflicts)
+Assign tasks to domain agents by `touches` path:
+  apps/api/, apps/worker/, db/ → backend-developer
+  apps/web/                    → frontend-developer
+  apps/mobile/                 → mobile-developer
+  apps/desktop/                → desktop-developer
   ↓
-Each agent:
+Each agent (worktree-isolated):
   Read tasks/features/{feature}.md for task context
   ↓
   TDD (write tests → fail → implement → pass)
