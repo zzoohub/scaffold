@@ -76,7 +76,7 @@ Process one phase at a time. Within each phase, teammates work in parallel on th
 │   ├── ux/
 │   │   ├── ux-design.md        # UX overview (IA, navigation, global patterns)
 │   │   └── screens/            # Per-screen UX specs
-│   ├── arch/
+│   └── arch/
 │   │   ├── context.md            # Problem, ASRs, domain model
 │   │   ├── system.md             # Patterns, components, data, deployment
 │   │   ├── decisions.md          # ADRs, risk register, tech debt
