@@ -4,11 +4,12 @@ FROM oven/bun:latest
 RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
 RUN useradd -m sandbox
 
+USER sandbox
+
 ARG CACHEBUST=1
-RUN --mount=type=cache,target=/root/.bun/install/cache \
+RUN --mount=type=cache,target=/home/sandbox/.bun/install/cache \
     bun install -g @anthropic-ai/claude-code@latest
 
-USER sandbox
 WORKDIR /app
 
 ENTRYPOINT ["claude", "--dangerously-skip-permissions"]
