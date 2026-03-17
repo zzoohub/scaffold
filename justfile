@@ -180,3 +180,32 @@ deploy-api:
 
 deploy-worker:
     gcloud run deploy worker --source {{ worker_dir }}
+
+# ─── Claude Sandbox ─────────────────────────────────────────────────────────
+
+claude-sandbox *ARGS:
+    #!/usr/bin/env bash
+    STAMP="/tmp/claude-sandbox-checked"
+    if [ -f "$STAMP" ] && [ "$(date +%Y%m%d)" = "$(cat "$STAMP")" ]; then
+        :
+    else
+        LOCAL=$(docker run --rm --entrypoint claude claude-sandbox --version 2>/dev/null || echo "none")
+        LATEST=$(npm view @anthropic-ai/claude-code version 2>/dev/null)
+        if [ "$LOCAL" != "$LATEST" ]; then
+            echo "⬆ claude-code $LOCAL → $LATEST"
+            docker build --build-arg CACHEBUST=$(date +%s) \
+                -t claude-sandbox -f Dockerfile.claude-sandbox .
+        else
+            echo "✓ claude-code $LOCAL"
+        fi
+        echo "$(date +%Y%m%d)" > "$STAMP"
+    fi
+    docker run --rm -it \
+        -v "$(pwd)":/app \
+        -v "$HOME/.claude":/home/sandbox/.claude:ro \
+        -w /app \
+        claude-sandbox {{ARGS}}
+
+claude-build:
+    docker build --build-arg CACHEBUST=$(date +%s) \
+        -t claude-sandbox -f Dockerfile.claude-sandbox .
