@@ -57,7 +57,7 @@ src/app/
 
 ---
 
-## Next.js & Expo
+## Client
 
 Standard 2D apps following Feature-Sliced Design. Both use `src/app/` as the router with co-located app-layer.
 

@@ -106,11 +106,11 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 
 ## Web
 ### Web Workflow (MUST FOLLOW)
-- Design system: **design-system**
-- UI: **frontend-design**
+- Design system: Use **design-system** skill
+- UI: Use **frontend-design** skill
 - Web source code:
-  - If **TanStack Start (SolidJS)** → **solidjs**
-  - If **Next.js** → **vercel-composition-patterns** (composition) → **vercel-react-best-practices** (optimization)
+  - If **TanStack Start** → Use **tanstack-start** skill
+  - If **Next.js** → Use **vercel-composition-patterns** (composition) and **vercel-react-best-practices** (optimization) skills
 
 ### FSD Import Rules
 - `app(routing) → views → widgets → features → entities → shared` (never import upward)
