@@ -104,6 +104,9 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 ### API Conventions
 <!-- Define API conventions (e.g., error format, auth strategy, pagination style) -->
 
+## Worker
+<!-- If worker is needed -->
+
 ## Web
 ### Web Workflow (MUST FOLLOW)
 - Design system: Use **design-system** skill
@@ -122,18 +125,6 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific UI conventions -->
 
-## Mobile
-### Mobile Workflow
-- Design system: **design-system**
-- Mobile source code: **expo-app-design:building-native-ui** (implementation) → **vercel-react-native-skills** (improve)
-<!-- Add or replace sub-agent as needed -->
-
-### Mobile Conventions
-- **Type safety**: Enforce the strictest TypeScript compiler options.
-- **I18n**: All user-facing text must support en and ko.
-- **Dark mode**: Support light and dark themes.
-<!-- Add project-specific mobile conventions -->
-
 ---
 
 ## Environment
@@ -146,6 +137,3 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 | Worker  | `localhost:8081~`           | TBD  |
 | DB      | Docker Compose (`5432`)     | TBD  |
 | Redis   | Docker Compose (`6379`)     | TBD  |
-
-## Worker
-<!-- If worker is needed -->
