@@ -23,15 +23,15 @@ plan-ceo-review                     → "Is this the right direction?" (once per
 
 ```
 ux-designer (parallel)              → docs/ux/
-architect (Mode A, parallel)        → docs/arch/ + docs/database-design.md + db/migrations/
+architect (Mode A, parallel)        → docs/arch/ + docs/arch/database.md + db/migrations/
 plan-eng-review                     → "Is the architecture solid?" (once, after design)
 data-analyst (parallel)             → biz/analytics/
 ```
 
 ### Checklist
 - [ ] UX: IA + key screen specs (`docs/ux/screens/`)
-- [ ] Architecture: `docs/arch/context.md`, `design.md`, `decisions.md`
-- [ ] Database: `docs/database-design.md` + `db/migrations/`
+- [ ] Architecture: `docs/arch/context.md`, `system.md`, `decisions.md`
+- [ ] Database: `docs/arch/database.md` + `db/migrations/`
 - [ ] plan-eng-review passed
 - [ ] Tracking plan: events, funnels, dashboards, kill criteria
 

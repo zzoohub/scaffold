@@ -78,9 +78,9 @@ Process one phase at a time. Within each phase, teammates work in parallel on th
 │   │   └── screens/            # Per-screen UX specs
 │   ├── arch/
 │   │   ├── context.md            # Problem, ASRs, domain model
-│   │   ├── design.md             # Patterns, components, data, deployment
-│   │   └── decisions.md          # ADRs, risk register, tech debt
-│   └── database-design.md      # DB schema design
+│   │   ├── system.md             # Patterns, components, data, deployment
+│   │   ├── decisions.md          # ADRs, risk register, tech debt
+│   │   └── database.md           # DB schema design
 ├── biz/                  # Business operations (how to sell & grow)
 ├── tasks/
 │   ├── board.md              # Phase-based status table (state, assignee, touches)
