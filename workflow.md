@@ -42,19 +42,20 @@ data-analyst (parallel)             → biz/analytics/
 After design is finalized, generate the task breakdown.
 
 ```
-product-manager (Mode E)            → TASKS.md
+product-manager (Mode E)            → tasks/backlog.md + tasks/active.md + tasks/done.md
 ```
 
 Tasks reflect architecture decisions from `docs/arch/`. Each task = one PR-sized session.
+`backlog.md` groups tasks by priority (🔴/🟡/🟢) and feature subsections.
 
 ---
 
 ## 4. Build (task-based loop)
 
-Each task from TASKS.md = one session. Repeat until all tasks checked.
+Each task from `tasks/active.md` = one session. Repeat until backlog is empty.
 
 ```
-TASKS.md → next unchecked task
+tasks/backlog.md → pick next task → move to tasks/active.md
   ↓
 Read docs/prd/prd.md + docs/prd/features/{feature}.md
   ↓
@@ -66,7 +67,7 @@ reviewer + verifier (once per task, parallel)
   ↓
 Fix if needed → re-run → all pass
   ↓
-check TASKS.md → sync docs/ → commit → push
+mark [x] → move to tasks/done.md → sync docs/ → commit → push
 ```
 
 Unit + integration tests via TDD. E2E via verifier per task.

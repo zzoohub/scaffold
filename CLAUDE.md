@@ -16,10 +16,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Loop
 
-Each session = one task from `TASKS.md`.
+Each session = one task from `tasks/`.
 
 ### Step 1: Pick a task
-Open `TASKS.md`. Find the next unchecked task. Read `docs/prd/features/{feature}.md` for context.
+Open `tasks/`. Find the next unchecked task. Read `docs/prd/features/{feature}.md` for context.
 
 ### Step 2: TDD
 Write ALL tests first → confirm FAIL → implement → confirm ALL PASS.
@@ -29,7 +29,7 @@ Write ALL tests first → confirm FAIL → implement → confirm ALL PASS.
 - **verifier** — browser QA (browse binary) + E2E tests
 
 ### Step 4: Done
-Check off task in `TASKS.md` → commit → push.
+Check off task in `tasks/` → commit → push.
 
 ---
 
@@ -39,14 +39,11 @@ Check off task in `TASKS.md` → commit → push.
 ### Monorepo Structure
 ```
 ├── apps/
-│   ├── api/              # Backend API → Cloud Run
-│   ├── worker/           # Background jobs → Cloud Run Jobs / CF Worker
-│   ├── web/              # Web client → CF Pages / Vercel
-│   └── mobile/           # Expo React Native
-├── db/
-│   ├── migrations/
-│   ├── rollbacks/
-│   └── seeds/
+│   ├── api/              # Backend API
+│   ├── worker/           # Background jobs (cron, queue, event-driven, pub/sub)
+│   ├── web/              # Web App
+│   └── mobile/           # Mobile App
+├── db/                   # Database schema and migrations
 ├── e2e/                  # End-to-end tests
 ├── docs/
 │   ├── prd/
@@ -62,7 +59,10 @@ Check off task in `TASKS.md` → commit → push.
 │   │   └── decisions.md          # ADRs, risk register, tech debt
 │   └── database-design.md      # DB schema design
 ├── biz/                  # Business operations (how to sell & grow)
-├── TASKS.md              # Progress tracking (all features)
+├── tasks/
+│   ├── backlog.md            # Planned tasks by priority/feature
+│   ├── active.md             # Currently in progress
+│   └── done.md               # Completed tasks
 └── justfile              # dev, test, deploy commands
 ```
 
