@@ -16,20 +16,34 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Loop
 
-Each session = one task from `tasks/`.
+Two modes: **solo** (one task at a time) and **team** (parallel agents per phase).
 
-### Step 1: Pick a task
-Open `tasks/`. Find the next unchecked task. Read `docs/prd/features/{feature}.md` for context.
+### Solo Mode
 
-### Step 2: TDD
-Write ALL tests first → confirm FAIL → implement → confirm ALL PASS.
+Each session = one task from `tasks/board.md`.
 
-### Step 3: Review
-- **reviewer** — security (OWASP) + code quality (2-pass: CRITICAL / INFORMATIONAL)
-- **verifier** — browser QA (browse binary) + E2E tests
+1. **Pick:** Open `tasks/board.md`. Find the current phase's next `backlog` task. Read `tasks/features/{feature}.md` for context.
+2. **TDD:** Write ALL tests first → confirm FAIL → implement → confirm ALL PASS.
+3. **Review:** Run **reviewer** + **verifier** in parallel.
+4. **Done:** Update status to `done` in `tasks/board.md` → commit → push.
 
-### Step 4: Done
-Check off task in `tasks/` → commit → push.
+### Team Mode (Agent Orchestration)
+
+Process one phase at a time. Within each phase, tasks run in parallel.
+
+1. **Read board:** Open `tasks/board.md`. Identify the current phase (lowest phase with `backlog` tasks).
+2. **Check conflicts:** Tasks in the same phase must not share `touches` files. If they do, run them sequentially.
+3. **Spawn agents:** For each `backlog` task in the current phase, launch an Agent with `isolation: "worktree"`:
+   ```
+   Agent(
+     prompt: "Do task T-003. Read tasks/features/file-parser.md section T-003 for full context.
+              Follow project rules: TDD first, then implement. Run reviewer + verifier when done.",
+     isolation: "worktree"
+   )
+   ```
+4. **Merge results:** As agents complete, their worktree changes merge back to main.
+5. **Update board:** Set each completed task's status to `done` in `tasks/board.md`.
+6. **Next phase:** When all tasks in the current phase are `done`, move to the next phase. Repeat.
 
 ---
 
@@ -60,25 +74,17 @@ Check off task in `tasks/` → commit → push.
 │   └── database-design.md      # DB schema design
 ├── biz/                  # Business operations (how to sell & grow)
 ├── tasks/
-│   ├── backlog.md            # Planned tasks by priority/feature
-│   ├── active.md             # Currently in progress
-│   └── done.md               # Completed tasks
+│   ├── board.md              # Phase-based status table (state, assignee, touches)
+│   └── features/             # Full task details per feature (context, acceptance)
 └── justfile              # dev, test, deploy commands
 ```
 
-## Environment
-
-| Service | Dev                         | Prod |
-|---------|-----------------------------|------|
-| Web     | `localhost:3000`            | TBD  |
-| Mobile  | Expo Dev Client (`19000`)   | TBD  |
-| API     | `localhost:8080`            | TBD  |
-| Worker  | `localhost:8081~`           | TBD  |
-| DB      | Docker Compose (`5432`)     | TBD  |
-| Redis   | Docker Compose (`6379`)     | TBD  |
+---
 
 ## Build & Dev Commands
 All commands in `justfile`. Run `just --list` to see all recipes.
+
+---
 
 ## API
 ### API Workflow (MUST FOLLOW)
@@ -89,9 +95,6 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 ### API Conventions
 <!-- Define API conventions (e.g., error format, auth strategy, pagination style) -->
 
-## Worker
-<!-- If worker is needed -->
-
 ## Web
 ### Web Workflow (MUST FOLLOW)
 - Design system: **design-system**
@@ -99,7 +102,6 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 - Web source code:
   - If **TanStack Start (SolidJS)** → **solidjs**
   - If **Next.js** → **vercel-composition-patterns** (composition) → **vercel-react-best-practices** (optimization)
-  
 
 ### FSD Import Rules
 - `app(routing) → views → widgets → features → entities → shared` (never import upward)
@@ -122,3 +124,19 @@ All commands in `justfile`. Run `just --list` to see all recipes.
 - **I18n**: All user-facing text must support en and ko.
 - **Dark mode**: Support light and dark themes.
 <!-- Add project-specific mobile conventions -->
+
+---
+
+## Environment
+
+| Service | Dev                         | Prod |
+|---------|-----------------------------|------|
+| Web     | `localhost:3000`            | TBD  |
+| Mobile  | Expo Dev Client (`19000`)   | TBD  |
+| API     | `localhost:8080`            | TBD  |
+| Worker  | `localhost:8081~`           | TBD  |
+| DB      | Docker Compose (`5432`)     | TBD  |
+| Redis   | Docker Compose (`6379`)     | TBD  |
+
+## Worker
+<!-- If worker is needed -->

@@ -42,34 +42,49 @@ data-analyst (parallel)             → biz/analytics/
 After design is finalized, generate the task breakdown.
 
 ```
-product-manager (Mode E)            → tasks/backlog.md + tasks/active.md + tasks/done.md
+task-manager (Mode A)               → tasks/board.md + tasks/features/*.md
 ```
 
-Tasks reflect architecture decisions from `docs/arch/`. Each task = one PR-sized session.
-`backlog.md` groups tasks by priority (🔴/🟡/🟢) and feature subsections.
+Output structure:
+```
+tasks/
+├── board.md              # Phase-based status table (orchestrator reads this)
+├── features/
+│   ├── <feature>.md      # Full task details per feature
+│   └── ...
+```
+
+- `board.md` tracks state (phase, status, assignee, touches). Changes often.
+- `features/*.md` hold context (depends_on, acceptance, context). Change rarely.
+- Within a phase: all tasks run in parallel. Between phases: sequential.
+- Each task has a `touches` field listing files it modifies (prevents agent conflicts).
 
 ---
 
-## 4. Build (task-based loop)
+## 4. Build (phase-based loop)
 
-Each task from `tasks/active.md` = one session. Repeat until backlog is empty.
+Process one phase at a time. Within each phase, tasks run in parallel.
 
 ```
-tasks/backlog.md → pick next task → move to tasks/active.md
+board.md → pick phase with remaining backlog tasks
   ↓
-Read docs/prd/prd.md + docs/prd/features/{feature}.md
+Assign tasks to agents (check `touches` for file conflicts)
   ↓
-TDD (write tests → fail → implement → pass)
+Each agent:
+  Read tasks/features/{feature}.md for task context
   ↓
-reviewer + verifier (once per task, parallel)
-  ├─ reviewer: security (OWASP) + code quality (2-pass)
-  └─ verifier: browser QA (browse binary) + E2E tests
+  TDD (write tests → fail → implement → pass)
   ↓
-Fix if needed → re-run → all pass
+  reviewer + verifier (once per task, parallel)
+    ├─ reviewer: security (OWASP) + code quality (2-pass)
+    └─ verifier: browser QA (browse binary) + E2E tests
   ↓
-mark [x] → move to tasks/done.md → sync docs/ → commit → push
+  Fix if needed → re-run → all pass
+  ↓
+  Update board.md status → done → commit → push
 ```
 
+Phase N+1 starts after all Phase N tasks are done.
 Unit + integration tests via TDD. E2E via verifier per task.
 Exception: manually test payment flows before launch.
 
