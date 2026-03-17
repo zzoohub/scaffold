@@ -18,7 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Two modes: **solo** (one task at a time) and **team** (parallel agents per phase).
 
-### Solo Mode
+### Solo Mode (sequential, sub-agents for QA)
 
 Each session = one task from `tasks/board.md`.
 
@@ -27,7 +27,7 @@ Each session = one task from `tasks/board.md`.
 3. **Review:** Run **reviewer** + **verifier** in parallel.
 4. **Done:** Update status to `done` in `tasks/board.md` → commit → push.
 
-### Team Mode (Agent Orchestration)
+### Team Mode (Agent Team)
 
 **Agent landscape:**
 - **Plan**: product-manager, ux-designer, architect, task-manager
@@ -35,26 +35,24 @@ Each session = one task from `tasks/board.md`.
 - **QA**: reviewer, verifier
 - **Biz**: marketer, data-analyst, growth-optimizer
 
-Process one phase at a time. Within each phase, tasks run in parallel.
+Process one phase at a time. Within each phase, teammates work in parallel on the same repo.
 
 1. **Read board:** Open `tasks/board.md`. Identify the current phase (lowest phase with `backlog` tasks).
-2. **Check conflicts:** Tasks in the same phase must not share `touches` files. If they do, run them sequentially.
-3. **Spawn agents:** Route each task to the right domain agent by `touches` path:
+2. **Check conflicts:** Tasks in the same phase must not share `touches` files. No worktree isolation — file conflicts are real. If tasks share files, run them sequentially.
+3. **Create team:** Spawn teammates by routing tasks to domain agents by `touches` path:
    - `apps/api/`, `apps/worker/`, `db/` → backend-developer
    - `apps/web/` → frontend-developer
    - `apps/mobile/` → mobile-developer
    - `apps/desktop/` → desktop-developer
-   ```
-   Agent(
-     subagent_type: "backend-developer",
-     prompt: "Do task T-003. Read tasks/features/file-parser.md section T-003 for full context.
-              Follow project rules: TDD first, then implement. Run reviewer + verifier when done.",
-     isolation: "worktree"
-   )
-   ```
-4. **Merge results:** As agents complete, their worktree changes merge back to main.
-5. **Update board:** Set each completed task's status to `done` in `tasks/board.md`.
-6. **Next phase:** When all tasks in the current phase are `done`, move to the next phase. Repeat.
+   - Other (`e2e/`, `docs/`, root configs) → handle directly or assign to the most relevant domain agent
+4. **Each teammate autonomously:**
+   - Reads CLAUDE.md rules and their agent definition
+   - Reads `tasks/features/{feature}.md` for task context
+   - TDD: tests first → fail → implement → pass
+   - Runs reviewer + verifier in parallel
+   - Updates their task's status to `done` in `tasks/board.md`
+   - Commits and pushes
+5. **Next phase:** When all tasks in the current phase are `done`, move to the next phase. Repeat.
 
 ---
 

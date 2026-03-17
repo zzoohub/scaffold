@@ -68,13 +68,14 @@ Process one phase at a time. Within each phase, tasks run in parallel.
 ```
 board.md → pick phase with remaining backlog tasks
   ↓
-Assign tasks to domain agents by `touches` path:
+Create team — route tasks to domain agents by `touches` path:
   apps/api/, apps/worker/, db/ → backend-developer
   apps/web/                    → frontend-developer
   apps/mobile/                 → mobile-developer
   apps/desktop/                → desktop-developer
+  other (e2e/, docs/, configs) → lead handles directly or assigns to most relevant
   ↓
-Each agent (worktree-isolated):
+Each teammate (same repo, no worktree):
   Read tasks/features/{feature}.md for task context
   ↓
   TDD (write tests → fail → implement → pass)
@@ -89,6 +90,7 @@ Each agent (worktree-isolated):
 ```
 
 Phase N+1 starts after all Phase N tasks are done.
+Same repo — `touches` field is the only file conflict guard. No worktree isolation.
 Unit + integration tests via TDD. E2E via verifier per task.
 Exception: manually test payment flows before launch.
 
@@ -114,13 +116,15 @@ Direct CLI deploy per service (`wrangler`, `gcloud`, `vercel`, `eas`). Deploy re
 
 ## 6. Launch → Marketing
 
-Use **marketer** agent → outputs to `biz/marketing/`, `biz/legal/`, `biz/ops/`.
+Use **marketer** agent → `biz/marketing/strategy.md`, `launch/`, `pricing.md`, `competitors.md`
+Use **content-marketer** agent → `biz/marketing/content/`, `assets/`
 
 ### Checklist
-- [ ] Strategy: positioning, audience, channels
-- [ ] Pricing: tiers and packaging
-- [ ] Launch materials: PH, HN, Reddit drafts
-- [ ] SEO: sitemap, meta, OG, robots.txt
+- [ ] Strategy: positioning, audience, channels (marketer)
+- [ ] Pricing: tiers and packaging (marketer)
+- [ ] Launch materials: PH, HN, Reddit drafts (marketer)
+- [ ] Content backlog: social, email, blog (content-marketer)
+- [ ] SEO: sitemap, meta, OG, robots.txt (content-marketer)
 - [ ] Legal: ToS, Privacy Policy
 - [ ] Assets: OG image, screenshots, demo
 
@@ -138,6 +142,7 @@ Runs in parallel — not a sequential step.
 - Daily: check feedback → `biz/ops/feedback-log.md`
 - Same question 3+ times → update FAQ
 - Incidents → follow `biz/ops/runbook.md`
+- Ongoing content: use **content-marketer** → `biz/marketing/content/`
 - Feed insights back into step 1, 4, or 8
 
 ---
