@@ -31,6 +31,7 @@ Side duties (not routed as build tasks):
   tasks/ → developers update tasks/board.md per task; task-manager maintains structure
 ```
 
+Repeat until all phases are complete — no backlog tasks remain in `tasks/board.md`.
 Phase N+1 starts after all Phase N tasks are done.
 Same repo — `touches` field is the only file conflict guard. No worktree isolation.
 Unit + integration tests via TDD. E2E via verifier per task.
