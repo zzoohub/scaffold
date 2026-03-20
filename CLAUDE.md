@@ -85,6 +85,9 @@ Process one phase at a time. Within each phase, teammates work in parallel on th
 ├── tasks/
 │   ├── board.md              # Phase-based status table (state, assignee, touches)
 │   └── features/             # Full task details per feature (context, acceptance)
+├── workflow-plan.md      # Validate → Plan → Design → Tasks
+├── workflow-build.md     # Build loop (phase-based TDD)
+├── workflow-ship.md      # Deploy → Launch → Operate → Measure → Grow
 └── justfile              # dev, test, deploy commands
 ```
 
