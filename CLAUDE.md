@@ -43,7 +43,7 @@ Process one phase at a time. Within each phase, teammates work in parallel on th
    - `apps/api/`, `apps/worker/`, `db/` → backend-developer
    - `apps/web/` → frontend-developer
    - `apps/mobile/` → mobile-developer
-   - `apps/desktop/` → desktop-developer
+   - `apps/desktop/` → frontend-developer (desktop)
    - Other (`e2e/`, `docs/`, root configs) → handle directly or assign to the most relevant domain agent
 4. **Each teammate autonomously:**
    - Reads CLAUDE.md rules and their agent definition
